@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>code-kev · artwork preview</title>
+<style>
+  :root { color-scheme: light; --page:#f6f8fa; --panel:#fff; --ink:#24292f; --line:#d0d7de; }
+  [data-theme="night"] { color-scheme: dark; --page:#0d1117; --panel:#000; --ink:#e6edf3; --line:#30363d; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:28px 20px; background:var(--page); color:var(--ink); font:14px system-ui,sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:16px; align-items:center; max-width:884px; margin:0 auto 24px; }
+  h1 { font-size:16px; font-weight:600; margin:0 auto 0 0; }
+  .group { display:flex; gap:4px; }
+  button { color:inherit; background:transparent; border:1px solid var(--line); border-radius:6px; padding:7px 12px; cursor:pointer; font:inherit; }
+  button[aria-pressed="true"] { background:var(--ink); color:var(--page); border-color:var(--ink); }
+  button:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+  .viewport { width:100%; overflow:auto; padding:4px 0 20px; }
+  article { width:884px; max-width:100%; margin:auto; border:1px solid var(--line); border-radius:6px; background:var(--panel); }
+  .file { padding:16px 24px 0; color:var(--ink); font:600 12px ui-monospace,monospace; }
+  .art { padding:24px; }
+  img { display:block; width:100%; height:auto; }
+  .hint { max-width:884px; margin:12px auto 0; color:var(--ink); opacity:.75; font-size:12px; }
+  @media(max-width:600px) { body { padding:20px 12px; } .art { padding:16px; } .file { padding:14px 16px 0; } button { padding:7px 9px; } }
+</style>
+<header>
+  <h1>Artwork preview</h1>
+  <div class="group" role="group" aria-label="Theme">
+    <button type="button" data-theme="day" aria-pressed="true">Day</button>
+    <button type="button" data-theme="night" aria-pressed="false">Night</button>
+  </div>
+  <div class="group" role="group" aria-label="Profile size">
+    <button type="button" data-size="desktop" aria-pressed="true">Desktop</button>
+    <button type="button" data-size="mobile" aria-pressed="false">Mobile</button>
+    <button type="button" data-size="full" aria-pressed="false">Full size</button>
+  </div>
+  <div class="group" role="group" aria-label="Motion">
+    <button type="button" data-motion="animated" aria-pressed="true">Motion</button>
+    <button type="button" data-motion="still" aria-pressed="false">Still</button>
+  </div>
+</header>
+<main class="viewport">
+  <article aria-label="Profile README preview">
+    <div class="file">code-kev / README.md</div>
+    <div class="art"><img id="artwork" src="assets/day.png" alt="A developer wearing headphones works at a laptop beside a window and three shelves of books about computer science, JavaScript, and agentic engineering."></div>
+  </article>
+</main>
+<p class="hint">Full size lets you inspect the book lettering. Desktop and mobile show typical profile widths.</p>
+<script>
+  let theme = 'day';
+  let moving = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const updateArt = () => {
+    document.querySelector('#artwork').src = `assets/${theme}.${moving ? 'gif' : 'png'}`;
+    document.querySelectorAll('[data-motion]').forEach(button => button.setAttribute('aria-pressed', String((button.dataset.motion === 'animated') === moving)));
+  };
+  const article = document.querySelector('article');
+  document.querySelectorAll('[data-theme]').forEach(button => {
+    if (button.tagName !== 'BUTTON') return;
+    button.addEventListener('click', () => {
+      theme = button.dataset.theme;
+      document.documentElement.dataset.theme = theme;
+      updateArt();
+      document.querySelectorAll('button[data-theme]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    });
+  });
+  document.querySelectorAll('[data-size]').forEach(button => button.addEventListener('click', () => {
+    const size = button.dataset.size;
+    article.style.width = {desktop:'884px',mobile:'377px',full:'1722px'}[size];
+    article.style.maxWidth = size === 'full' ? 'none' : '100%';
+    article.querySelector('.art').style.padding = size === 'mobile' ? '16px' : '24px';
+    document.querySelectorAll('[data-size]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  }));
+  document.querySelectorAll('[data-motion]').forEach(button => button.addEventListener('click', () => {
+    moving = button.dataset.motion === 'animated';
+    updateArt();
+  }));
+  updateArt();
+</script>
+</html>
