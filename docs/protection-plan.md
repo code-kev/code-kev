@@ -2,11 +2,21 @@
 
 Goal: only Kevin (`code-kev`) controls changes to the repository, and every change to the published profile passes through a pull request, including Kevin's own changes.
 
-Status: approved configuration. CI is being established before activation; the JSON files describe the intended active rulesets.
+Status: **active and verified on 2026-10-03**. GitHub's live rulesets match the committed configurations.
+
+## Activation record
+
+- [Owner-controlled branches](https://github.com/code-kev/code-kev/rules/24420015) is active for all branches.
+- [Protect published profile](https://github.com/code-kev/code-kev/rules/24420052) is active for the default branch, with no bypass actors.
+- [Setup PR #1](https://github.com/code-kev/code-kev/pull/1) passed `artwork-check` and was squash merged. The [first check on `main`](https://github.com/code-kev/code-kev/actions/runs/37130975944) also passed before activation.
+- API readback confirmed the effective rules on `main`, the app-bound required check, squash-only merging, automatic deletion of merged feature branches, and read-only Actions permissions.
+- Fork workflow approval now requires owner approval for **all external contributors**.
+- On a disposable branch, owner creation and ordinary updates succeeded. With a temporary copy of the default-branch protections applied, direct pushes, force pushes, and branch deletion were each rejected by GitHub with `GH013` rule violations. The branch stayed unchanged after these attempts.
+- The disposable branch and temporary ruleset were removed. No force push or deletion was attempted on `main`.
 
 ## Initial audit
 
-Verified on 2026-10-03:
+Verified before activation on 2026-10-03:
 
 - This is a public, personally owned repository with `main` as the default branch.
 - `code-kev` is the sole account with repository access. There are no pending collaborator invitations or deploy keys.
