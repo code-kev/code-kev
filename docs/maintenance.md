@@ -67,6 +67,6 @@ Publishing means pushing the committed repository to `code-kev/code-kev`. No web
 
 ## Repository protection
 
-The [protection policy](protection-plan.md) requires feature branches and pull requests for updates to the profile, including the owner's own edits. The `artwork-check` workflow runs on PRs and on `main`. Once the documented activation is complete, the required check must pass against the latest default branch, review conversations must be resolved, and changes must use squash merge. Force pushes and deletion of the default branch are blocked without a bypass.
+The active [protection policy](protection-plan.md) requires feature branches and pull requests for updates to the profile, including the owner's own edits. The `artwork-check` workflow runs on PRs and on `main`. The required check must pass against the latest default branch, review conversations must be resolved, and changes must use squash merge. Force pushes and deletion of the default branch are blocked without a bypass.
 
 Kevin is the sole maintainer, so no second-person approval is required. The separate owner-control ruleset limits repository branch changes and merges to the owner. Keep Actions tokens read-only and approve external fork workflows before they run.
