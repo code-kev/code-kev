@@ -46,7 +46,7 @@ Open <http://127.0.0.1:8769/preview.html>. Controls switch day/night, desktop/mo
 npm run check
 ```
 
-This rebuilds both GIFs and checks canvas size, 24 frames, infinite looping, head motion, unchanged source bookshelves, and stationary bookshelf pixels in the encoded GIFs. Each loop is two seconds at 12 frames per second.
+This first verifies the README's image paths and the published PNG/GIF dimensions, frame count, duration, and loop settings. It then rebuilds both GIFs and checks canvas size, 24 frames, infinite looping, head motion, unchanged source bookshelves, and stationary bookshelf pixels in the encoded GIFs. Each loop is two seconds at 12 frames per second.
 
 Render without checks, or rebuild one theme:
 
@@ -64,3 +64,9 @@ For artwork edits, preserve the 1672 × 941 canvas and agreed composition. Match
 GitHub requires a **public repository named `code-kev`** with a nonempty root `README.md` to display this artwork on the `code-kev` profile. See [GitHub's profile README requirements](https://docs.github.com/en/account-and-profile/how-tos/profile-customization/managing-your-profile-readme).
 
 Publishing means pushing the committed repository to `code-kev/code-kev`. No website hosting or deployment service is required. The README selects day/night images with `<picture>` and uses stills for reduced motion. Keep the four asset paths valid and commit regenerated GIFs when the artwork changes.
+
+## Repository protection
+
+The [protection policy](protection-plan.md) requires feature branches and pull requests for updates to the profile, including the owner's own edits. The `artwork-check` workflow runs on PRs and on `main`. Once the documented activation is complete, the required check must pass against the latest default branch, review conversations must be resolved, and changes must use squash merge. Force pushes and deletion of the default branch are blocked without a bypass.
+
+Kevin is the sole maintainer, so no second-person approval is required. The separate owner-control ruleset limits repository branch changes and merges to the owner. Keep Actions tokens read-only and approve external fork workflows before they run.
