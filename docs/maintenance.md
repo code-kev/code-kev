@@ -19,7 +19,7 @@ The verifier rejects a missing or incorrect reduced-motion condition, a still so
 
 ## Change profile text or contacts
 
-Edit `profile/content.json`, then run `npm run render:profile`. This regenerates the README and nine dotted SVG groups at widths `288`, `350`, `550` and `800`. The recovered 5×7 atlas in `profile/glyphs.json` preserves the original dot positions and 0.36-cell radius. Unknown characters and words that cannot fit fail before any output is written. Tests compare every published profile file against the renderer, so stale exports fail CI.
+Edit `profile/content.json`, then run `npm run render:profile`. This regenerates the README, `docs/profile.md` and nine dotted SVG groups at widths `288`, `350`, `550` and `800`. The recovered 5×7 atlas in `profile/glyphs.json` preserves the original dot positions and 0.36-cell radius. Unknown characters and words that cannot fit fail before any output is written. Tests compare every published profile file against the renderer, so stale exports fail CI.
 
 The intermediate 550px layout increases body marks to 2.4px cells; the other variants use 2.2px cells. At the previously measured 238, 308, 430 and 846px profile columns, body ink spans at least 12px vertically. Viewport sources remain independent of the fixed internal light/dark palettes. GitHub repository and profile columns differ, so inspect both before changing the breakpoints. Contact crops remain 56px tall with centered lettering and equal vertical touch padding.
 

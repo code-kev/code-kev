@@ -12,16 +12,16 @@ The underlying dot/block study uses a 240×135 sampling grid. The blimp crosses 
 
 - Published delivery canvas: 836×471 for GIFs, WebPs and reduced-motion PNGs. Keep the 1672×941 masters in the local artwork workspace.
 - GIFs and preferred lossless WebPs: 600 frames, identical 40/50 ms encoded delay arrays totaling 25,000 ms, infinite looping.
-- Profile: nine exported sections/crops, each in 800/350/288 source-size variants with inherited day/night palettes. Each contact crop is one third of its source canvas width and 56 pixels tall, with equal vertical padding around the lettering. Container-end padding stays outside the clickable images.
-- The README references five direct hero files (two WebPs, two GIF fallbacks and a theme-aware still SVG), the two PNGs embedded verbatim in that still, and 27 profile SVGs; body/hero display width is fluid and footer pieces each fill one third of the same column.
+- Profile: nine exported sections/crops, each in 800/550/350/288 source-size variants with inherited day/night palettes. Each contact crop is one third of its source canvas width and 56 pixels tall, with equal vertical padding around the lettering. Container-end padding stays outside the clickable images.
+- The README references five direct hero files (two WebPs, two GIF fallbacks and a theme-aware still SVG), the two PNGs embedded verbatim in that still, and 36 profile SVGs; body/hero display width is fluid and footer pieces each fill one third of the same column.
 - Name and section headings outrank the smaller muted subtitle and body items. Stack, Building, Environment and Connect have coherent insets and separators. Contact links stay within the same boundary.
-- Keep the approved profile wording, the public certkit destination and contact names/URLs together with their alternative text. Pentagent has no public repository link. The selectable-text disclosure was intentionally removed.
+- Keep the approved profile wording, the public certkit destination and contact names/URLs together with their alternative text. Pentagent has no public repository link. The selectable-text disclosure was intentionally removed; a permanent text/static profile link now provides native headings and selectable copy.
 
 The full-resolution masters include an earlier bounded tone optimization with a measured maximum grayscale error of 2/255; that is not a universally acceptable error limit. Published delivery copies resample those approved GIFs to 836×471 with Lanczos3 and the source palette, retaining all 600 frames and the exact original delays. Resizing changes pixels and can soften large or high-density displays. Preferred WebPs preserve every decoded RGBA pixel of their delivery GIFs: 5,641,488 bytes (day) and 5,841,030 bytes (night), approximately half the previous transfer. GIF fallbacks are 7,318,375 and 7,510,745 bytes. Delivery PNG stills match the corresponding animation's first frame. Further edits need fresh preservation evidence and explicit tradeoffs.
 
 ## Maintenance boundary
 
-The published repository stores finished assets, a verifier, locked dependencies and operational docs. Source generation, earlier experiments and checkpoint tags remain in the local artwork workspace. A new skill or maintenance change does not authorize exporting that history or regenerating the approved art.
+The published repository stores finished assets, the reproducible profile content/atlas/renderer, a verifier, locked dependencies and operational docs. Hero source generation, earlier experiments and checkpoint tags remain in the local artwork workspace. A new skill or maintenance change does not authorize exporting that history or regenerating the approved art.
 
 The current `artwork-check` validates asset paths, formats, SVG variants and widths, strictly limited palette CSS, the exact embedded PNG stills, and hero metadata. It does not prove every pixel or complete visual transparency. For artwork changes, also perform the relevant rendered/decoded preservation comparisons and real-page visual checks; do not describe metadata-only validation as full-loop image verification.
 

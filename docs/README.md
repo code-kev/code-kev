@@ -20,8 +20,12 @@ The README selects theme and motion variants with `<picture>` sources. Profile s
 
 Start with [maintenance](maintenance.md) for changes and local verification, or [automation](automation.md) for CI and integration requirements. These docs replace the retired Inkdesk maintenance, prompt and protection documents.
 
+See [artwork, sources and reuse](artwork.md) for the reproducible source-to-delivery mapping, known provenance and current license status.
+
 ## Reusable artwork skill
 
 [Glyph Artwork Constitution](../skills/glyph-artwork/SKILL.md) captures the reusable techniques behind this artwork: aspect-correct character grids, deterministic glyph geometry, registered motion layers, preservation checks, honest encoding tradeoffs and GitHub delivery. Its general instructions are separate from this profile's specific asset contract. Earlier checkpoint history is not bundled with the skill.
 
-To use it, copy the complete `skills/glyph-artwork` folder into your agent runtime's skill directory and invoke `$glyph-artwork`, or ask an agent to read its `SKILL.md` directly. Keep the two reference files with the entrypoint; the GitHub guide applies only to that surface, and the profile contract applies only to explicitly identified code-kev maintenance work.
+To use it, copy the complete `skills/glyph-artwork` folder into your agent runtime's skill directory and invoke `$glyph-artwork`, or ask an agent to read its `SKILL.md` directly. Keep its references, script and alphabet asset with the entrypoint. The GitHub guide applies only to that surface, and the profile contract applies only to explicitly identified code-kev maintenance work.
+
+The [worked example](../skills/glyph-artwork/references/worked-example.md) runs with Node.js and no installed dependencies. It produces a transparent 16:9 dot city/window scene, verifies its physical dimensions and rejects unsupported caption glyphs before writing. It is a static example, independent of Kevin's profile animation.

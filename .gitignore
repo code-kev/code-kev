@@ -22,6 +22,7 @@
 !/scripts/check-profile.test.mjs
 !/scripts/render-profile.mjs
 !/scripts/render-profile.test.mjs
+!/scripts/glyph-example.test.mjs
 !/profile/
 /profile/*
 !/profile/content.json
@@ -30,6 +31,7 @@
 /docs/*
 !/docs/README.md
 !/docs/profile.md
+!/docs/artwork.md
 !/docs/maintenance.md
 !/docs/automation.md
 !/.github/
@@ -43,6 +45,12 @@
 !/skills/glyph-artwork/
 /skills/glyph-artwork/*
 !/skills/glyph-artwork/SKILL.md
+!/skills/glyph-artwork/scripts/
+/skills/glyph-artwork/scripts/*
+!/skills/glyph-artwork/scripts/dot-city.mjs
+!/skills/glyph-artwork/assets/
+/skills/glyph-artwork/assets/*
+!/skills/glyph-artwork/assets/glyphs.json
 !/skills/glyph-artwork/agents/
 /skills/glyph-artwork/agents/*
 !/skills/glyph-artwork/agents/openai.yaml
@@ -50,3 +58,4 @@
 /skills/glyph-artwork/references/*
 !/skills/glyph-artwork/references/github-readme.md
 !/skills/glyph-artwork/references/code-kev-profile.md
+!/skills/glyph-artwork/references/worked-example.md
