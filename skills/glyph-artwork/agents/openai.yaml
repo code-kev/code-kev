@@ -1,0 +1,4 @@
+interface:
+  display_name: "Glyph Artwork Constitution"
+  short_description: "Create coherent glyph artwork and layered animation"
+  default_prompt: "Use $glyph-artwork to create or refine a monochrome glyph scene while preserving the approved composition."
