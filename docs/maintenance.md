@@ -11,7 +11,7 @@ npm run check
 npm audit
 ```
 
-Verification only reads the published assets. It checks all referenced files, their formats, hero dimensions, each 600-frame GIF/WebP animation's 40/50 ms delays, its 25-second duration and infinite loop, still PNGs, all three responsive SVG exports per section, and the absence of unused assets. SVG widths must match their variant suffix; contact crops use one third of that width. The Profile SVG guard rejects scripts, embedded images, external references and paint URLs. It allows only fixed RGB palette CSS. The reduced-motion SVG is validated against an exact template containing the two approved PNGs; arbitrary CSS or external images are rejected. Tests exercise the real verifier against valid assets and broken paths, missing variants, unsafe SVGs, incorrect export sizes and incorrect animation frames, mismatched WebP/GIF timing, theme/motion source order and unbalanced contact-image padding. WebP delay arrays must exactly match their GIF fallbacks, and WebPs must be smaller than those fallbacks.
+Verification only reads the published assets. It checks all referenced files, their formats, hero dimensions, each 600-frame GIF/WebP animation's 40/50 ms delays, its 25-second duration and infinite loop, still PNGs, all four responsive SVG exports per section, and the absence of unused assets. SVG widths must match their variant suffix; contact crops use one third of that width. The Profile SVG guard rejects scripts, embedded images, external references and paint URLs. It allows only fixed RGB palette CSS. The reduced-motion SVG is validated against an exact template containing the two approved PNGs; arbitrary CSS or external images are rejected. Tests exercise the real verifier against valid assets and broken paths, missing variants, unsafe SVGs, incorrect export sizes and incorrect animation frames, mismatched WebP/GIF timing, theme/motion source order and unbalanced contact-image padding. WebP delay arrays must exactly match their GIF fallbacks, and WebPs must be smaller than those fallbacks.
 
 No FFmpeg installation, artwork rendering or hosting service is needed to run these checks or display the README.
 
@@ -19,9 +19,11 @@ The verifier rejects a missing or incorrect reduced-motion condition, a still so
 
 ## Change profile text or contacts
 
-Keep visible SVG wording and the corresponding README alternative text together. A profile section has three exports: `288`, `350` and `800`. Each contains the unchanged glyph geometry and fixed light/dark palettes selected by the embedding page's color scheme. Contact destinations live in the README anchors; keep their descriptive names in sync with the URLs. Preserve the private project's plain section without adding a repository link. Contact crops are 56 pixels tall with centered lettering and equal vertical touch padding. Keep the README container's bottom gutter outside the clickable crops.
+Edit `profile/content.json`, then run `npm run render:profile`. This regenerates the README and nine dotted SVG groups at widths `288`, `350`, `550` and `800`. The recovered 5×7 atlas in `profile/glyphs.json` preserves the original dot positions and 0.36-cell radius. Unknown characters and words that cannot fit fail before any output is written. Tests compare every published profile file against the renderer, so stale exports fail CI.
 
-The scene and dotted SVG generation tools live in the separate local artwork development workspace. Generate and review changes there, then copy the approved SVG exports and matching README markup into this repository. This release includes the finished assets and their verifier; it has no asset-generation command. Planning notes, experiments, layout captures, screenshots and checkpoint history stay in that local workspace.
+The intermediate 550px layout increases body marks to 2.4px cells; the other variants use 2.2px cells. At the previously measured 238, 308, 430 and 846px profile columns, body ink spans at least 12px vertically. Viewport sources remain independent of the fixed internal light/dark palettes. GitHub repository and profile columns differ, so inspect both before changing the breakpoints. Contact crops remain 56px tall with centered lettering and equal vertical touch padding.
+
+The hero scene still lives in the separate local artwork workspace. Profile wording and glyph exports are now reproducible from this public repository without browser layout captures. Planning notes, experiments, screenshots and checkpoint history remain local.
 
 ## Change hero artwork
 
@@ -43,4 +45,4 @@ Run both commands above, then inspect the branch README on GitHub in light and d
 
 Push the feature branch with `git push --no-follow-tags origin <branch-name>`. Only changes integrated into `main` update the public profile. Follow [the required checks and merge policy](automation.md) for that integration.
 
-The ignore rules admit the finished assets, these three operational docs, verifier, test, package files and the workflow. They exclude scratch files by default. If another operational file becomes necessary, add its exact path to `.gitignore` and review it before staging. Retired docs and source-generation scripts remain available in Git history; they describe the older artwork and should not be used to validate this release.
+The ignore rules admit the finished assets, operational docs, profile content/atlas/renderer, verification scripts, package files and automation. They exclude scratch files by default. If another operational file becomes necessary, add its exact path to `.gitignore` and review it before staging. Retired docs and source-generation scripts remain available in Git history; they describe the older artwork and should not be used to validate this release.

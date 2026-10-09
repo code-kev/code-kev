@@ -20,6 +20,12 @@
 /scripts/*
 !/scripts/check-profile.mjs
 !/scripts/check-profile.test.mjs
+!/scripts/render-profile.mjs
+!/scripts/render-profile.test.mjs
+!/profile/
+/profile/*
+!/profile/content.json
+!/profile/glyphs.json
 !/docs/
 /docs/*
 !/docs/README.md

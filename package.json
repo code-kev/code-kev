@@ -8,7 +8,8 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "test": "node --test scripts/check-profile.test.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "render:profile": "node scripts/render-profile.mjs",
     "check": "node scripts/check-profile.mjs"
   },
   "devDependencies": {

@@ -23,7 +23,7 @@ references.push('assets/day.png', 'assets/night.png');
 assert(references.length > 0, 'README must reference the profile artwork');
 
 for (const reference of references) {
-  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|800)\.svg$/);
+  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|550|800)\.svg$/);
   assert(heroes.includes(reference) || profile, `Unsupported asset path: ${reference}`);
   const bytes = await readFile(resolve(root, reference));
   if (profile) {
@@ -69,7 +69,7 @@ for (const theme of ['day', 'night']) {
   assert(webp.bytes < gif.bytes, `WEBP must be smaller than GIF fallback: ${theme}`);
   assert.deepEqual(webp.metadata.delay, gif.metadata.delay, `WEBP delays must match GIF fallback: ${theme}`);
 }
-for (const [name, group] of variants) assert.equal(group.size, 3, `Profile size variants missing: ${name}`);
+for (const [name, group] of variants) assert.equal(group.size, 4, `Profile size variants missing: ${name}`);
 assert(variants.size > 0, 'README must reference profile sections');
 const files = (await readdir(resolve(root, 'assets'))).filter(name => name !== 'profile').map(name => 'assets/' + name);
 files.push(...(await readdir(resolve(root, 'assets/profile'))).map(name => 'assets/profile/' + name));

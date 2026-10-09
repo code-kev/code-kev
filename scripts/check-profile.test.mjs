@@ -7,7 +7,7 @@ import test from 'node:test';
 import sharp from 'sharp';
 const root=fileURLToPath(new URL('..',import.meta.url));
 test('accepts the published SVGs and 600-frame animations',()=>{
-  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 34/);
+  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 43/);
 });
 async function fixture(context){
   await mkdir(join(root,'tmp'),{recursive:true});
@@ -73,7 +73,7 @@ test('rejects a hero animation using the retired full-size canvas',async context
 });
 
 test('contact images have balanced vertical touch padding',async()=>{
-  for(const size of [288,350,800])for(const name of ['email','linkedin','github']){
+  for(const size of [288,350,550,800])for(const name of ['email','linkedin','github']){
     const image=sharp(join(root,`assets/profile/contact-${name}-${size}.svg`));
     const {data,info}=await image.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let top=info.height,bottom=-1;

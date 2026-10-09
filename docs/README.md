@@ -8,8 +8,9 @@ This repository publishes the profile README and its finished artwork. GitHub di
 - `assets/day.webp` and `assets/night.webp`: the preferred animated hero, 836 × 471, 600 frames and a 25-second loop. WebP encoding preserves the delivery GIF pixels exactly.
 - `assets/day.gif` and `assets/night.gif`: the approved GIF fallbacks for browsers without animated WebP support.
 - `assets/day.png` and `assets/night.png`: approved stills at the same canvas size, embedded verbatim in the theme-aware reduced-motion `assets/still.svg`.
-- `assets/profile/`: transparent dotted SVG sections at widths 800, 350 and 288. Each export inherits the displayed theme with a fixed internal color palette.
-- `scripts/check-profile.mjs` and its test: verification of the published files.
+- `assets/profile/`: transparent dotted SVG sections at widths 800, 550, 350 and 288. Each export inherits the displayed theme with a fixed internal color palette.
+- `profile/content.json`, `profile/glyphs.json` and `scripts/render-profile.mjs`: reviewed copy, the original glyph atlas and reproducible profile exports.
+- `scripts/check-profile.mjs` and the test suite: verification of the published files and source/export consistency.
 - `package.json` and `package-lock.json`: verification commands and the locked Sharp dependency.
 - `.github/workflows/artwork.yml`: the required `artwork-check` job.
 

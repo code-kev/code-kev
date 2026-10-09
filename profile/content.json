@@ -1,0 +1,68 @@
+{
+  "name": "Kevin Rodrigues",
+  "handle": "code-kev",
+  "projects": [
+    {
+      "name": "certkit",
+      "label": "Open source / beta",
+      "visibility": "open",
+      "description": "Trusted local HTTPS for development.",
+      "detail": "JavaScript API / CLI / Vite plugin",
+      "url": "https://github.com/code-kev/certkit"
+    },
+    {
+      "name": "Pentagent",
+      "label": "Closed source",
+      "visibility": "closed",
+      "description": "Autonomous security testing agent.",
+      "detail": "CLI / planning / reporting"
+    }
+  ],
+  "stack": [
+    {
+      "label": "Languages",
+      "value": "JavaScript / TypeScript"
+    },
+    {
+      "label": "Web",
+      "value": "React / Next.js / Vue"
+    },
+    {
+      "label": "Backend",
+      "value": "Node.js / Express"
+    },
+    {
+      "label": "Mobile",
+      "value": "React Native"
+    }
+  ],
+  "environment": [
+    {
+      "label": "OS",
+      "value": "macOS daily / Windows & Linux familiar"
+    },
+    {
+      "label": "Editor",
+      "value": "VS Code"
+    },
+    {
+      "label": "Agents",
+      "value": "Claude Code / Codex / OpenCode / Pi"
+    }
+  ],
+  "role": "Full-stack JavaScript & agentic engineering.",
+  "contacts": [
+    {
+      "label": "Email",
+      "url": "mailto:rodrigs.kevin@gmail.com"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/kevin-rodrigues-js-dev/"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/code-kev"
+    }
+  ]
+}
