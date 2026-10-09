@@ -1,6 +1,8 @@
 <picture>
 <source media="(prefers-color-scheme: dark) and (prefers-reduced-motion: reduce)" srcset="assets/night.png">
 <source media="(prefers-reduced-motion: reduce)" srcset="assets/day.png">
+<source media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/night.webp">
+<source media="(prefers-color-scheme: light)" type="image/webp" srcset="assets/day.webp">
 <source media="(prefers-color-scheme: dark)" srcset="assets/night.gif">
 <img src="assets/day.gif" width="100%" alt="A developer with headphones types beside a rounded bot while a blimp trails an AGI Soon banner across a futuristic city.">
 </picture>

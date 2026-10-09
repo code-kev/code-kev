@@ -7,7 +7,7 @@ import test from 'node:test';
 import sharp from 'sharp';
 const root=fileURLToPath(new URL('..',import.meta.url));
 test('accepts the published SVGs and 600-frame animations',()=>{
-  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 58/);
+  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 60/);
 });
 async function fixture(context){
   await mkdir(join(root,'tmp'),{recursive:true});
@@ -62,4 +62,41 @@ test('rejects replacement artwork with the wrong frame count',async context=>{
   const dir=await fixture(context);
   await sharp({create:{width:1672,height:941,channels:3,background:'#fff'}}).gif().toFile(join(dir,'assets/day.gif'));
   reject(dir,/GIF frame count mismatch/);
+});
+
+test('contact images have balanced vertical touch padding',async()=>{
+  for(const size of [288,350,800])for(const theme of ['day','night'])for(const name of ['email','linkedin','github']){
+    const image=sharp(join(root,`assets/profile/contact-${name}-${size}-${theme}.svg`));
+    const {data,info}=await image.ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    let top=info.height,bottom=-1;
+    for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++)if(data[(y*info.width+x)*info.channels+3]){top=Math.min(top,y);bottom=Math.max(bottom,y);}
+    assert(bottom>=top,'Contact lettering must be visible');
+    assert(Math.abs(top-(info.height-bottom-1))<=1,`Unbalanced contact padding: ${name}-${size}-${theme}, top ${top}, bottom ${info.height-bottom-1}`);
+  }
+});
+
+test('hero prefers WebP for both themes after reduced-motion stills',async()=>{
+  const hero=(await readFile(join(root,'README.md'),'utf8')).split('</picture>')[0];
+  const sources=[...hero.matchAll(/<source\b[^>]*srcset="([^"]+)"[^>]*>/g)];
+  assert.deepEqual(sources.map(s=>s[1]),['assets/night.png','assets/day.png','assets/night.webp','assets/day.webp','assets/night.gif']);
+  for(const source of sources.slice(2,4))assert.match(source[0],/type="image\/webp"/);
+  assert.match(sources[2][0],/prefers-color-scheme: dark/);
+  assert.match(sources[3][0],/prefers-color-scheme: light/);
+  assert.match(hero,/<img src="assets\/day.gif"/);
+});
+
+test('rejects WebP timing changes even when frame count and duration match',async context=>{
+  const dir=await fixture(context),file=join(dir,'assets/day.webp');
+  const bytes=await readFile(file),positions=[];
+  for(let offset=12;offset<bytes.length;){
+    const size=bytes.readUInt32LE(offset+4);
+    if(bytes.toString('ascii',offset,offset+4)==='ANMF')positions.push(offset+20);
+    offset+=8+size+(size%2);
+  }
+  const forty=positions.find(p=>bytes.readUIntLE(p,3)===40);
+  const fifty=positions.find(p=>bytes.readUIntLE(p,3)===50);
+  assert(forty!==undefined&&fifty!==undefined);
+  bytes.writeUIntLE(50,forty,3);bytes.writeUIntLE(40,fifty,3);
+  await writeFile(file,bytes);
+  reject(dir,/WEBP delays must match GIF fallback/);
 });

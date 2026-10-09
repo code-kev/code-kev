@@ -6,6 +6,8 @@
 /assets/*
 !/assets/day.gif
 !/assets/night.gif
+!/assets/day.webp
+!/assets/night.webp
 !/assets/day.png
 !/assets/night.png
 !/assets/profile/

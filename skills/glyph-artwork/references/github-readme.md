@@ -6,7 +6,7 @@ Read this for a GitHub profile or repository README. A working custom HTML previ
 
 Use raster hero assets and self-contained SVG images for deterministic glyphs. Keep SVGs free of scripts, foreign HTML, embedded images, external paint URLs and font dependencies. Supply descriptive alternative text for image lettering and accessible names for contact links. An SVG rendered through an image is not selectable text, and links inside that SVG do not become normal README links. Use actual surrounding HTML anchors for clickable exported sections.
 
-Use `<picture>` sources for day/night themes, and still image sources for reduced motion ahead of animation sources. Do not discard the picture markup while solving a sizing issue. Check the output through GitHub's Markdown renderer and then the real page; preserved markup is not proof that every asset loaded or painted.
+Use `<picture>` sources for day/night themes, and still image sources for reduced motion ahead of animation sources. For large GIFs, measure a lossless animated WebP candidate and compare its full decoded timeline before adopting it; prefer explicit light and dark `type="image/webp"` sources while retaining compatible GIF fallbacks. An instant cached theme and a slow uncached theme do not establish a theme-specific encoder fault. Do not discard the picture markup while solving a sizing issue. Check the output through GitHub's Markdown renderer and then the real page; preserved markup is not proof that every asset loaded or painted.
 
 ## Scale against the README column
 
@@ -19,6 +19,7 @@ One proven arrangement for a three-link glyph footer:
 - Give hero/body fallback images `width="100%"` and each adjacent contact fallback image `width="33.333333%"`.
 - Use media sources to choose size/theme files; omit numeric source-width attributes that would override the fluid fallback width.
 - Put the footer anchors on their own line and omit whitespace between adjacent pieces that could cause wrapping.
+- Center lettering vertically within each clickable crop. Keep the page/container end gutter outside those crops; including it makes the touch area extend farther below the text than above it.
 
 These percentages depend on equal crops. Do not apply them to compact crops with different widths. CSS flex/grid rules in the local preview cannot enforce the arrangement after GitHub removes those styles. A Markdown table is a separate layout option; its cell padding, overflow and typography still need real-page proof.
 
