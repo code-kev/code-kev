@@ -60,8 +60,16 @@ test('rejects a missing mobile variant even if its reference is removed',async c
 });
 test('rejects replacement artwork with the wrong frame count',async context=>{
   const dir=await fixture(context);
-  await sharp({create:{width:1672,height:941,channels:3,background:'#fff'}}).gif().toFile(join(dir,'assets/day.gif'));
+  await sharp({create:{width:836,height:471,channels:3,background:'#fff'}}).gif().toFile(join(dir,'assets/day.gif'));
   reject(dir,/GIF frame count mismatch/);
+});
+
+test('rejects a hero animation using the retired full-size canvas',async context=>{
+  const dir=await fixture(context),file=join(dir,'assets/day.gif');
+  const bytes=await readFile(file);
+  bytes.writeUInt16LE(1672,6);bytes.writeUInt16LE(941,8);
+  await writeFile(file,bytes);
+  reject(dir,/Artwork width mismatch/);
 });
 
 test('contact images have balanced vertical touch padding',async()=>{

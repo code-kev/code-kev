@@ -5,7 +5,7 @@ This repository publishes the profile README and its finished artwork. GitHub di
 ## Repository contents
 
 - `README.md`: artwork, profile sections, alternative text and contact links.
-- `assets/day.webp` and `assets/night.webp`: the preferred lossless animated hero, 1672 × 941, 600 frames and a 25-second loop.
+- `assets/day.webp` and `assets/night.webp`: the preferred animated hero, 836 × 471, 600 frames and a 25-second loop. WebP encoding preserves the delivery GIF pixels exactly.
 - `assets/day.gif` and `assets/night.gif`: the approved GIF fallbacks for browsers without animated WebP support.
 - `assets/day.png` and `assets/night.png`: approved stills at the same canvas size, embedded verbatim in the theme-aware reduced-motion `assets/still.svg`.
 - `assets/profile/`: transparent dotted SVG sections at widths 800, 350 and 288. Each export inherits the displayed theme with a fixed internal color palette.
