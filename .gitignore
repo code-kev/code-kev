@@ -1,4 +1,13 @@
-node_modules/
-tmp/
-.DS_Store
-npm-debug.log*
+# Publish only the README and the assets it uses.
+*
+!/.gitignore
+!/README.md
+!/assets/
+/assets/*
+!/assets/day.gif
+!/assets/night.gif
+!/assets/day.png
+!/assets/night.png
+!/assets/profile/
+/assets/profile/*
+!/assets/profile/*.svg
