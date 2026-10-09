@@ -6,6 +6,10 @@ import sharp from 'sharp';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const readme = await readFile(resolve(root, 'README.md'), 'utf8');
+const stillSource = readme.split('</picture>')[0].match(/<source\b[^>]*>/)?.[0] ?? '';
+assert(/\bsrcset="assets\/still\.svg"/.test(stillSource), 'Still source must be first');
+assert(/\bmedia="\(prefers-reduced-motion: reduce\)"/.test(stillSource), 'Still source must select reduced motion');
+assert(/\btype="image\/svg\+xml"/.test(stillSource), 'Still source must declare SVG');
 const references = [...new Set([...readme.matchAll(/\b(?:src|srcset)="([^"]+)"/g)].map(match => match[1]))];
 const heroes = ['assets/day.gif', 'assets/night.gif', 'assets/day.png', 'assets/night.png', 'assets/day.webp', 'assets/night.webp', 'assets/still.svg'];
 const variants = new Map();
@@ -46,6 +50,7 @@ for (const reference of references) {
     assert.equal(metadata.width, 836, `Artwork width mismatch: ${reference}`);
     assert.equal(metadata.pageHeight ?? metadata.height, 471, `Artwork height mismatch: ${reference}`);
     if (format === 'gif' || format === 'webp') {
+      assert(bytes.length <= (format === 'webp' ? 6000000 : 8000000), `Hero byte budget exceeded: ${reference}`);
       assert.equal(metadata.pages, 600, `${format.toUpperCase()} frame count mismatch: ${reference}`);
       assert.equal(metadata.loop, 0, `${format.toUpperCase()} must loop forever: ${reference}`);
       assert.equal(metadata.delay.length, 600, `${format.toUpperCase()} delays missing: ${reference}`);

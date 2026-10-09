@@ -30,6 +30,7 @@
 !/.github/workflows/
 /.github/workflows/*
 !/.github/workflows/artwork.yml
+!/.github/dependabot.yml
 !/skills/
 /skills/*
 !/skills/glyph-artwork/

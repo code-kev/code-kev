@@ -93,6 +93,37 @@ test('hero prefers WebP for both themes after the reduced-motion still',async()=
   assert.match(hero,/<img src="assets\/day.gif"/);
 });
 
+test('rejects a still source without the reduced-motion condition',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  const original=await readFile(file,'utf8');
+  for(const media of ['', 'media="(prefers-reduced-motion: no-preference)" ']){
+    await writeFile(file,original.replace('media="(prefers-reduced-motion: reduce)" ',media));
+    reject(dir,/Still source must select reduced motion/);
+  }
+});
+
+test('rejects a reduced-motion still after an animation source',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  const original=await readFile(file,'utf8');
+  const still=original.match(/<source\b[^>]*srcset="assets\/still\.svg"[^>]*>\n/)[0];
+  await writeFile(file,original.replace(still,'').replace(/(<source\b[^>]*srcset="assets\/night\.webp"[^>]*>\n)/,'$1'+still));
+  reject(dir,/Still source must be first/);
+});
+
+test('rejects a still source with the wrong declared format',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  await writeFile(file,(await readFile(file,'utf8')).replace('type="image/svg+xml"','type="image/webp"'));
+  reject(dir,/Still source must declare SVG/);
+});
+
+test('rejects hero files exceeding the delivery byte budget',async context=>{
+  for(const [format,padding] of [['webp',400000],['gif',1000000]]){
+    const dir=await fixture(context),file=join(dir,`assets/day.${format}`);
+    await writeFile(file,Buffer.concat([await readFile(file),Buffer.alloc(padding)]));
+    reject(dir,/Hero byte budget exceeded/);
+  }
+});
+
 test('rejects WebP timing changes even when frame count and duration match',async context=>{
   const dir=await fixture(context),file=join(dir,'assets/day.webp');
   const bytes=await readFile(file),positions=[];

@@ -8,11 +8,14 @@ Use Node.js 24 and npm. From the repository root:
 npm ci --no-audit --no-fund
 npm test
 npm run check
+npm audit
 ```
 
 Verification only reads the published assets. It checks all referenced files, their formats, hero dimensions, each 600-frame GIF/WebP animation's 40/50 ms delays, its 25-second duration and infinite loop, still PNGs, all three responsive SVG exports per section, and the absence of unused assets. SVG widths must match their variant suffix; contact crops use one third of that width. The Profile SVG guard rejects scripts, embedded images, external references and paint URLs. It allows only fixed RGB palette CSS. The reduced-motion SVG is validated against an exact template containing the two approved PNGs; arbitrary CSS or external images are rejected. Tests exercise the real verifier against valid assets and broken paths, missing variants, unsafe SVGs, incorrect export sizes and incorrect animation frames, mismatched WebP/GIF timing, theme/motion source order and unbalanced contact-image padding. WebP delay arrays must exactly match their GIF fallbacks, and WebPs must be smaller than those fallbacks.
 
 No FFmpeg installation, artwork rendering or hosting service is needed to run these checks or display the README.
+
+The verifier rejects a missing or incorrect reduced-motion condition, a still source placed after animation, or an incorrect still source type. Each WebP is limited to 6,000,000 bytes and each GIF fallback to 8,000,000 bytes; larger deliveries require an explicit reviewed budget change. These ceilings prevent transfer-size regressions independently of the WebP/GIF size comparison.
 
 ## Change profile text or contacts
 
