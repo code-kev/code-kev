@@ -157,3 +157,12 @@ test('rejects external content in the reduced-motion SVG',async context=>{
   await writeFile(file,(await readFile(file,'utf8')).replace('data:image/png;base64,','https://example.com/'));
   reject(dir,/Still SVG must embed only the exact approved PNGs/);
 });
+
+test('reduced-motion PNGs exactly match the approved poster frame 204',async()=>{
+  for (const theme of ['day','night']) {
+    const poster=await sharp(join(root,`assets/${theme}.png`)).toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const frame=await sharp(join(root,`assets/${theme}.gif`),{page:204,pages:1}).toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    assert.equal(poster.info.width,frame.info.width);assert.equal(poster.info.height,frame.info.height);
+    assert(poster.data.equals(frame.data),`${theme} poster pixels differ from frame 204`);
+  }
+});
