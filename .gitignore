@@ -27,3 +27,15 @@
 !/.github/workflows/
 /.github/workflows/*
 !/.github/workflows/artwork.yml
+!/skills/
+/skills/*
+!/skills/glyph-artwork/
+/skills/glyph-artwork/*
+!/skills/glyph-artwork/SKILL.md
+!/skills/glyph-artwork/agents/
+/skills/glyph-artwork/agents/*
+!/skills/glyph-artwork/agents/openai.yaml
+!/skills/glyph-artwork/references/
+/skills/glyph-artwork/references/*
+!/skills/glyph-artwork/references/github-readme.md
+!/skills/glyph-artwork/references/code-kev-profile.md
