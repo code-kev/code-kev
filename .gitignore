@@ -1,4 +1,4 @@
-# Publish only the README and the assets it uses.
+# Publish finished assets and the files needed to maintain and verify them.
 *
 !/.gitignore
 !/README.md
@@ -11,3 +11,19 @@
 !/assets/profile/
 /assets/profile/*
 !/assets/profile/*.svg
+!/package.json
+!/package-lock.json
+!/scripts/
+/scripts/*
+!/scripts/check-profile.mjs
+!/scripts/check-profile.test.mjs
+!/docs/
+/docs/*
+!/docs/README.md
+!/docs/maintenance.md
+!/docs/automation.md
+!/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/artwork.yml
