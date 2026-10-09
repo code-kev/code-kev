@@ -137,7 +137,10 @@ export function buildProfile(content) {
   });
   const contacts = content.contacts.map(contact=>`<a href="${escape(contact.url)}" aria-label="${escape(contact.label+' — '+contact.url.replace('mailto:',''))}">${picture('contact-'+contact.label.toLowerCase(),contact.label,'33.333333%')}</a>`).join('');
   const identity = picture('identity',`${content.name}. ${content.handle}. ${content.role}${content.focus?' '+content.focus:''}`);
-  files.set('README.md',`${hero}\n\n<div>\n${identity}\n${picture('stack','Stack. '+rowsAlt(content.stack))}\n${projects.join('\n')}\n${picture('environment','Environment. '+rowsAlt(content.environment))}\n${picture('connect','Connect')}\n<br>\n${contacts}\n</div>\n`);
+  files.set('README.md',`${hero}\n\n<div>\n${identity}\n${projects.join('\n')}\n${picture('stack','Stack. '+rowsAlt(content.stack))}\n${picture('environment','Environment. '+rowsAlt(content.environment))}\n${picture('connect','Connect')}\n<br>\n${contacts}\n</div>\n\n[Text / static profile](docs/profile.md) · [Artwork & skill](docs/README.md)\n`);
+  const nativeProjects=content.projects.map(project=>`### ${project.name}\n\n${project.label}. ${project.description}\n\n${project.detail}.${project.url?`\n\n[Repository and usage examples](${project.url}#readme)`:''}`).join('\n\n');
+  const nativeRows=rows=>rows.map(row=>`- **${row.label}:** ${row.value}`).join('\n');
+  files.set('docs/profile.md',`# ${content.name}\n\n${content.focus}\n\n${content.role}\n\n<img src="../assets/still.svg" width="100%" alt="A developer and rounded bot overlooking a futuristic city; an AGI Soon blimp passes the window.">\n\nThis reading view uses a still image.\n\n## Selected projects\n\n${nativeProjects}\n\n## Stack\n\n${nativeRows(content.stack)}\n\n## Environment\n\n${nativeRows(content.environment)}\n\n## Connect\n\n${content.contacts.map(contact=>`- [${contact.label}](${contact.url})`).join('\n')}\n\n[Animated profile](../README.md) · [Artwork and reusable skill](README.md)\n`);
   return files;
 }
 
@@ -149,5 +152,5 @@ if (process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)
     await mkdir(dirname(resolve(root,name)),{recursive:true});
     await writeFile(resolve(root,name),data);
   }
-  console.log(`Rendered ${files.size-1} profile SVGs and README from profile/content.json.`);
+  console.log(`Rendered ${[...files.keys()].filter(name=>name.endsWith('.svg')).length} profile SVGs, README and native profile from profile/content.json.`);
 }

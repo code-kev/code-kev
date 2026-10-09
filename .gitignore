@@ -29,6 +29,7 @@
 !/docs/
 /docs/*
 !/docs/README.md
+!/docs/profile.md
 !/docs/maintenance.md
 !/docs/automation.md
 !/.github/

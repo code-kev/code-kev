@@ -99,3 +99,21 @@ test('body marks stay at least 12px tall in the measured narrow columns', async 
     assert((Math.max(...ys)-Math.min(...ys)+2*radius)*column/size>=12,`Body too small at ${column}px`);
   }
 });
+
+test('graphical and native profiles share the same copy and destinations', async () => {
+  const {buildProfile}=await renderer();
+  const content=JSON.parse(await readFile(new URL('../profile/content.json',import.meta.url),'utf8'));
+  const files=buildProfile(content), readme=files.get('README.md'), native=files.get('docs/profile.md');
+  assert(native,'A permanent native text/static profile is required');
+  for (const text of [content.name,content.role,content.focus,...content.projects.flatMap(p=>[p.name,p.description,p.detail])]) {
+    assert(native.includes(text),`Missing native copy: ${text}`);
+    assert(readme.includes(text.replaceAll('&','&amp;')),`Missing graphical alternative: ${text}`);
+  }
+  for (const item of [...content.projects,...content.contacts].filter(item=>item.url)) {
+    assert(native.includes(item.url)); assert(readme.includes(item.url));
+  }
+  assert(native.includes('../assets/still.svg'));
+  assert(!/\.gif|\.webp/.test(native),'The static reading route must not load animation');
+  assert(readme.indexOf('assets/profile/certkit-')<readme.indexOf('assets/profile/stack-'));
+  assert.match(readme,/\[Text \/ static profile\]\(docs\/profile\.md\)/);
+});

@@ -2,6 +2,8 @@
 
 This repository publishes the profile README and its finished artwork. GitHub displays the root README from the default branch; pushing a release branch provides a preview until its changes reach `main`.
 
+Read the [text / static profile](profile.md) for selectable copy, semantic headings and project usage links, or explore the [reusable artwork skill](../skills/glyph-artwork/SKILL.md).
+
 ## Repository contents
 
 - `README.md`: artwork, profile sections, alternative text and contact links.
