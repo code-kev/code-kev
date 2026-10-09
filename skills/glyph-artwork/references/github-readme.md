@@ -4,9 +4,9 @@ Read this for a GitHub profile or repository README. A working custom HTML previ
 
 ## Use the supported surface
 
-Use raster hero assets and self-contained SVG images for deterministic glyphs. Keep SVGs free of scripts, foreign HTML, embedded images, external paint URLs and font dependencies. Supply descriptive alternative text for image lettering and accessible names for contact links. An SVG rendered through an image is not selectable text, and links inside that SVG do not become normal README links. Use actual surrounding HTML anchors for clickable exported sections.
+Use raster hero assets and self-contained SVG images for deterministic glyphs. Keep profile SVGs free of scripts, foreign HTML, embedded images, external paint URLs and font dependencies. Restrict any palette CSS to exact color rules. A still-image wrapper may embed only the reviewed PNG data with fixed theme-selection CSS; validate that exception explicitly. Supply descriptive alternative text for image lettering and accessible names for contact links. An SVG rendered through an image is not selectable text, and links inside that SVG do not become normal README links. Use actual surrounding HTML anchors for clickable exported sections.
 
-Use `<picture>` sources for day/night themes, and still image sources for reduced motion ahead of animation sources. For large GIFs, measure a lossless animated WebP candidate and compare its full decoded timeline before adopting it; prefer explicit light and dark `type="image/webp"` sources while retaining compatible GIF fallbacks. An instant cached theme and a slow uncached theme do not establish a theme-specific encoder fault. Do not discard the picture markup while solving a sizing issue. Check the output through GitHub's Markdown renderer and then the real page; preserved markup is not proof that every asset loaded or painted.
+Use `<picture>` animation sources with theme-only media queries. GitHub's manual-theme component can replace the entire media condition, discarding combined motion or viewport clauses. Keep a motion-only still source ahead of animation sources; a self-contained SVG can embed both approved PNGs and inherit the displayed theme internally. Keep responsive profile sources viewport-only, and let their SVGs inherit theme palettes through narrowly restricted CSS. Verify manual themes as well as system sync. For large GIFs, measure a lossless animated WebP candidate and compare its full decoded timeline before adopting it; prefer explicit light and dark `type="image/webp"` sources while retaining compatible GIF fallbacks. Inspect `currentSrc` in each real theme before blaming compression or caching: an instant dark image may actually be a PNG still while the light image is an animation. Do not discard the picture markup while solving a sizing issue. Check the output through GitHub's Markdown renderer and then the real page; preserved markup is not proof that every asset loaded or painted.
 
 ## Scale against the README column
 
@@ -17,7 +17,7 @@ One proven arrangement for a three-link glyph footer:
 - Export each body section across the full canvas with a shared inset.
 - Export three equal canvas-width contact crops, maintaining that same coordinate system and type scale.
 - Give hero/body fallback images `width="100%"` and each adjacent contact fallback image `width="33.333333%"`.
-- Use media sources to choose size/theme files; omit numeric source-width attributes that would override the fluid fallback width.
+- Use viewport-only media sources to choose size files; omit numeric source-width attributes that would override the fluid fallback width.
 - Put the footer anchors on their own line and omit whitespace between adjacent pieces that could cause wrapping.
 - Center lettering vertically within each clickable crop. Keep the page/container end gutter outside those crops; including it makes the touch area extend farther below the text than above it.
 
@@ -27,12 +27,12 @@ The body-image structure is a media selector plus a fluid fallback, with no `wid
 
 ```html
 <picture>
-  <source media="(max-width: 600px)" srcset="assets/profile/body-350-day.svg">
-  <img src="assets/profile/body-800-day.svg" width="100%" alt="Profile summary">
+  <source media="(max-width: 600px)" srcset="assets/profile/body-350.svg">
+  <img src="assets/profile/body-800.svg" width="100%" alt="Profile summary">
 </picture>
 ```
 
-Add the appropriate dark and reduced-motion selectors ahead of their fallbacks; this excerpt shows sizing, not a complete theme/motion set.
+Here the SVGs carry inherited theme palettes, so sizing sources need no theme clauses. For a hero, put its independent reduced-motion source before theme-only animation sources.
 
 Use transparent profile SVGs so separate exports do not become floating paper-colored rectangles against GitHub's theme. Give each content group a clear heading and separator; keep headings with their items. Test subtitle and section-heading hierarchy at display scale, rather than checking color values alone.
 

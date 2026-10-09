@@ -7,25 +7,36 @@ import sharp from 'sharp';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const readme = await readFile(resolve(root, 'README.md'), 'utf8');
 const references = [...new Set([...readme.matchAll(/\b(?:src|srcset)="([^"]+)"/g)].map(match => match[1]))];
-const heroes = ['assets/day.gif', 'assets/night.gif', 'assets/day.png', 'assets/night.png', 'assets/day.webp', 'assets/night.webp'];
+const heroes = ['assets/day.gif', 'assets/night.gif', 'assets/day.png', 'assets/night.png', 'assets/day.webp', 'assets/night.webp', 'assets/still.svg'];
 const variants = new Map();
 const animations = new Map();
+// The static SVG embeds these exact PNGs and inherits GitHub's displayed color scheme.
+const pngs = await Promise.all(['day', 'night'].map(theme => readFile(resolve(root, `assets/${theme}.png`))));
+const stillStyle = '.night{display:none}@media(prefers-color-scheme:dark){.day{display:none}.night{display:inline}}';
+const expectedStill = `<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941"><style>${stillStyle}</style><image class="day" width="1672" height="941" href="data:image/png;base64,${pngs[0].toString('base64')}"/><image class="night" width="1672" height="941" href="data:image/png;base64,${pngs[1].toString('base64')}"/></svg>\n`;
+assert.equal(await readFile(resolve(root, 'assets/still.svg'), 'utf8'), expectedStill, 'Still SVG must embed only the exact approved PNGs and fixed theme CSS');
+references.push('assets/day.png', 'assets/night.png');
 assert(references.length > 0, 'README must reference the profile artwork');
 
 for (const reference of references) {
-  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|800)-(day|night)\.svg$/);
+  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|800)\.svg$/);
   assert(heroes.includes(reference) || profile, `Unsupported asset path: ${reference}`);
   const bytes = await readFile(resolve(root, reference));
   if (profile) {
     const svg = bytes.toString('utf8');
-    assert(!/<!DOCTYPE|<!ENTITY|<(?:script|foreignObject|image|style|use|rect)\b|\b(?:[\w:-]*href|on\w+|style)\s*=|url\s*\(|&#/i.test(svg), `SVG must not contain active or external content: ${reference}`);
+    const styles = [...svg.matchAll(/<style>([^<]*)<\/style>/g)];
+    const inkRule = String.raw`\.ink-\d+\{color:rgb\(\d{1,3},\d{1,3},\d{1,3}\)\}`;
+    assert.equal(styles.length, 1, `SVG must have one fixed theme palette: ${reference}`);
+    assert(new RegExp(`^(?:${inkRule})+@media\\(prefers-color-scheme:dark\\)\\{(?:${inkRule})+\\}$`).test(styles[0][1]), `SVG theme CSS must contain only palette colors: ${reference}`);
+    const geometry = svg.replace(styles[0][0], '');
+    assert(!/<!DOCTYPE|<!ENTITY|<(?:script|foreignObject|image|style|use|rect)\b|\b(?:[\w:-]*href|on\w+|style)\s*=|url\s*\(|&#/i.test(geometry), `SVG must not contain active or external content: ${reference}`);
     const metadata = await sharp(bytes).metadata();
     assert.equal(metadata.format, 'svg', `Artwork format mismatch: ${reference}`);
     const expectedWidth = profile[1].startsWith('contact-') ? Math.round(Number(profile[2]) / 3) : Number(profile[2]);
     assert.equal(metadata.width, expectedWidth, `SVG width mismatch: ${reference}`);
     assert(metadata.height > 0 && metadata.height <= 1200, `Invalid SVG height: ${reference}`);
     const group = variants.get(profile[1]) ?? new Set();
-    group.add(profile[2] + '-' + profile[3]);
+    group.add(profile[2]);
     variants.set(profile[1], group);
   } else {
     // Read animation delays without decoding one tall image of all frames.
@@ -42,7 +53,7 @@ for (const reference of references) {
       assert.equal(metadata.delay.reduce((sum, delay) => sum + delay, 0), 25000, `${format.toUpperCase()} duration mismatch: ${reference}`);
       animations.set(reference, { metadata, bytes: bytes.length });
     } else {
-      assert.equal(metadata.pages ?? 1, 1, `Reduced-motion PNG must be still: ${reference}`);
+      assert.equal(metadata.pages ?? 1, 1, `Reduced-motion artwork must be still: ${reference}`);
     }
   }
 }
@@ -53,9 +64,9 @@ for (const theme of ['day', 'night']) {
   assert(webp.bytes < gif.bytes, `WEBP must be smaller than GIF fallback: ${theme}`);
   assert.deepEqual(webp.metadata.delay, gif.metadata.delay, `WEBP delays must match GIF fallback: ${theme}`);
 }
-for (const [name, group] of variants) assert.equal(group.size, 6, `Profile theme/size variants missing: ${name}`);
+for (const [name, group] of variants) assert.equal(group.size, 3, `Profile size variants missing: ${name}`);
 assert(variants.size > 0, 'README must reference profile sections');
 const files = (await readdir(resolve(root, 'assets'))).filter(name => name !== 'profile').map(name => 'assets/' + name);
 files.push(...(await readdir(resolve(root, 'assets/profile'))).map(name => 'assets/profile/' + name));
 assert.deepEqual(files.sort(), [...references].sort(), 'Published assets must all be referenced by the README');
-console.log(`Verified ${references.length} README image references, ${variants.size} complete profile sections and the GIF/WebP 600-frame, 25-second hero loops.`);
+console.log(`Verified ${references.length} artwork references (including embedded PNGs), ${variants.size} complete profile sections and the GIF/WebP 600-frame, 25-second hero loops.`);
