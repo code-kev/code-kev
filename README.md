@@ -1,78 +1,17 @@
 <picture>
-  <source media="(prefers-color-scheme: dark) and (prefers-reduced-motion: reduce)" srcset="assets/night.png">
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/day.png">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/night.gif">
-  <img src="assets/day.gif" width="800" alt="A developer with headphones types beside a rounded bot while a blimp trails an AGI Soon banner across a futuristic city.">
+<source media="(prefers-color-scheme: dark) and (prefers-reduced-motion: reduce)" srcset="assets/night.png">
+<source media="(prefers-reduced-motion: reduce)" srcset="assets/day.png">
+<source media="(prefers-color-scheme: dark)" srcset="assets/night.gif">
+<img src="assets/day.gif" width="800" alt="A developer with headphones types beside a rounded bot while a blimp trails an AGI Soon banner across a futuristic city.">
 </picture>
 
 <div>
-<picture>
-  <source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/intro-stack-288-night.svg" width="288">
-  <source media="(max-width: 382px)" srcset="assets/profile/intro-stack-288-day.svg" width="288">
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/intro-stack-350-night.svg" width="350">
-  <source media="(max-width: 600px)" srcset="assets/profile/intro-stack-350-day.svg" width="350">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/profile/intro-stack-800-night.svg" width="800">
-  <img src="assets/profile/intro-stack-800-day.svg" width="800" alt="Kevin Rodrigues. code-kev. Full-stack JavaScript &amp; agentic engineering. Stack. Languages: JavaScript / TypeScript. Web: React / Next.js / Vue. Backend: Node.js / Express. Mobile: React Native. Building.">
-</picture>
-<a href="https://github.com/code-kev/certkit">
-<picture>
-  <source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/certkit-288-night.svg" width="288">
-  <source media="(max-width: 382px)" srcset="assets/profile/certkit-288-day.svg" width="288">
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/certkit-350-night.svg" width="350">
-  <source media="(max-width: 600px)" srcset="assets/profile/certkit-350-day.svg" width="350">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/profile/certkit-800-night.svg" width="800">
-  <img src="assets/profile/certkit-800-day.svg" width="800" alt="certkit. Open source / beta. Trusted local HTTPS for development. JavaScript API / CLI / Vite plugin.">
-</picture>
-</a>
-<picture>
-  <source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/pentagent-environment-288-night.svg" width="288">
-  <source media="(max-width: 382px)" srcset="assets/profile/pentagent-environment-288-day.svg" width="288">
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/pentagent-environment-350-night.svg" width="350">
-  <source media="(max-width: 600px)" srcset="assets/profile/pentagent-environment-350-day.svg" width="350">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/profile/pentagent-environment-800-night.svg" width="800">
-  <img src="assets/profile/pentagent-environment-800-day.svg" width="800" alt="Pentagent. Closed source. Autonomous security testing agent. CLI / planning / reporting. Environment. OS: macOS daily / Windows &amp; Linux familiar. Editor: VS Code. Agents: Claude Code / Codex / OpenCode / Pi.">
-</picture>
+<picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/identity-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/identity-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/identity-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/identity-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/identity-800-night.svg" width="800"><img src="assets/profile/identity-800-day.svg" width="800" alt="Kevin Rodrigues. code-kev. Full-stack JavaScript &amp; agentic engineering."></picture>
+<picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/stack-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/stack-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/stack-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/stack-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/stack-800-night.svg" width="800"><img src="assets/profile/stack-800-day.svg" width="800" alt="Stack. Languages: JavaScript / TypeScript. Web: React / Next.js / Vue. Backend: Node.js / Express. Mobile: React Native."></picture>
+<a href="https://github.com/code-kev/certkit"><picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/certkit-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/certkit-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/certkit-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/certkit-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/certkit-800-night.svg" width="800"><img src="assets/profile/certkit-800-day.svg" width="800" alt="Building. certkit. Open source / beta. Trusted local HTTPS for development. JavaScript API / CLI / Vite plugin."></picture></a>
+<picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/pentagent-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/pentagent-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/pentagent-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/pentagent-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/pentagent-800-night.svg" width="800"><img src="assets/profile/pentagent-800-day.svg" width="800" alt="Pentagent. Closed source. Autonomous security testing agent. CLI / planning / reporting."></picture>
+<picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/environment-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/environment-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/environment-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/environment-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/environment-800-night.svg" width="800"><img src="assets/profile/environment-800-day.svg" width="800" alt="Environment. OS: macOS daily / Windows &amp; Linux familiar. Editor: VS Code. Agents: Claude Code / Codex / OpenCode / Pi."></picture>
+<picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/connect-288-night.svg" width="288"><source media="(max-width: 382px)" srcset="assets/profile/connect-288-day.svg" width="288"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/connect-350-night.svg" width="350"><source media="(max-width: 600px)" srcset="assets/profile/connect-350-day.svg" width="350"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/connect-800-night.svg" width="800"><img src="assets/profile/connect-800-day.svg" width="800" alt="Connect"></picture>
+<br>
+<a href="mailto:rodrigs.kevin@gmail.com" aria-label="Email — rodrigs.kevin@gmail.com"><picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-email-288-night.svg" width="80"><source media="(max-width: 382px)" srcset="assets/profile/contact-email-288-day.svg" width="80"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-email-350-night.svg" width="84"><source media="(max-width: 600px)" srcset="assets/profile/contact-email-350-day.svg" width="84"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/contact-email-800-night.svg" width="124"><img src="assets/profile/contact-email-800-day.svg" width="124" alt="Email"></picture></a><a href="https://www.linkedin.com/in/kevin-rodrigues-js-dev/" aria-label="LinkedIn — https://www.linkedin.com/in/kevin-rodrigues-js-dev/"><picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-linkedin-288-night.svg" width="87"><source media="(max-width: 382px)" srcset="assets/profile/contact-linkedin-288-day.svg" width="87"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-linkedin-350-night.svg" width="87"><source media="(max-width: 600px)" srcset="assets/profile/contact-linkedin-350-day.svg" width="87"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/contact-linkedin-800-night.svg" width="98"><img src="assets/profile/contact-linkedin-800-day.svg" width="98" alt="LinkedIn"></picture></a><a href="https://github.com/code-kev" aria-label="GitHub — https://github.com/code-kev"><picture><source media="(max-width: 382px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-github-288-night.svg" width="73"><source media="(max-width: 382px)" srcset="assets/profile/contact-github-288-day.svg" width="73"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/contact-github-350-night.svg" width="77"><source media="(max-width: 600px)" srcset="assets/profile/contact-github-350-day.svg" width="77"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/contact-github-800-night.svg" width="114"><img src="assets/profile/contact-github-800-day.svg" width="114" alt="GitHub"></picture></a>
 </div>
-
-<p>
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/profile/connect-night.svg"><img src="assets/profile/connect-day.svg" alt="Connect"></picture><br>
-<a href="mailto:rodrigs.kevin@gmail.com" aria-label="Email — rodrigs.kevin@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/profile/email-night.svg"><img src="assets/profile/email-day.svg" alt="Email"></picture></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/in/kevin-rodrigues-js-dev/" aria-label="LinkedIn — https://www.linkedin.com/in/kevin-rodrigues-js-dev/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/profile/linkedin-night.svg"><img src="assets/profile/linkedin-day.svg" alt="LinkedIn"></picture></a> &nbsp;&nbsp; <a href="https://github.com/code-kev" aria-label="GitHub — https://github.com/code-kev"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/profile/github-night.svg"><img src="assets/profile/github-day.svg" alt="GitHub"></picture></a>
-</p>
-
-<details>
-<summary>Read profile as selectable text</summary>
-
-# Kevin Rodrigues
-
-Full-stack JavaScript & agentic engineering.
-
-## Stack
-
-- **Languages:** JavaScript / TypeScript
-- **Web:** React / Next.js / Vue
-- **Backend:** Node.js / Express
-- **Mobile:** React Native
-
-## Building
-
-### [certkit](https://github.com/code-kev/certkit)
-
-Open source / beta. Trusted local HTTPS for development.
-
-JavaScript API / CLI / Vite plugin.
-
-### Pentagent
-
-Closed source. Autonomous security testing agent.
-
-CLI / planning / reporting.
-
-## Environment
-
-- **OS:** macOS daily / Windows & Linux familiar
-- **Editor:** VS Code
-- **Agents:** Claude Code / Codex / OpenCode / Pi
-
-[Email](mailto:rodrigs.kevin@gmail.com) · [LinkedIn](https://www.linkedin.com/in/kevin-rodrigues-js-dev/) · [GitHub](https://github.com/code-kev)
-
-</details>
