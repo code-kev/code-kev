@@ -13,7 +13,7 @@ const animations = new Map();
 // The static SVG embeds these exact PNGs and inherits GitHub's displayed color scheme.
 const pngs = await Promise.all(['day', 'night'].map(theme => readFile(resolve(root, `assets/${theme}.png`))));
 const stillStyle = '.night{display:none}@media(prefers-color-scheme:dark){.day{display:none}.night{display:inline}}';
-const expectedStill = `<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941"><style>${stillStyle}</style><image class="day" width="1672" height="941" href="data:image/png;base64,${pngs[0].toString('base64')}"/><image class="night" width="1672" height="941" href="data:image/png;base64,${pngs[1].toString('base64')}"/></svg>\n`;
+const expectedStill = `<svg xmlns="http://www.w3.org/2000/svg" width="836" height="471" viewBox="0 0 836 471"><style>${stillStyle}</style><image class="day" width="836" height="471" href="data:image/png;base64,${pngs[0].toString('base64')}"/><image class="night" width="836" height="471" href="data:image/png;base64,${pngs[1].toString('base64')}"/></svg>\n`;
 assert.equal(await readFile(resolve(root, 'assets/still.svg'), 'utf8'), expectedStill, 'Still SVG must embed only the exact approved PNGs and fixed theme CSS');
 references.push('assets/day.png', 'assets/night.png');
 assert(references.length > 0, 'README must reference the profile artwork');
@@ -43,8 +43,8 @@ for (const reference of references) {
     const metadata = await sharp(bytes).metadata();
     const format = reference.split('.').at(-1);
     assert.equal(metadata.format, format, `Artwork format mismatch: ${reference}`);
-    assert.equal(metadata.width, 1672, `Artwork width mismatch: ${reference}`);
-    assert.equal(metadata.pageHeight ?? metadata.height, 941, `Artwork height mismatch: ${reference}`);
+    assert.equal(metadata.width, 836, `Artwork width mismatch: ${reference}`);
+    assert.equal(metadata.pageHeight ?? metadata.height, 471, `Artwork height mismatch: ${reference}`);
     if (format === 'gif' || format === 'webp') {
       assert.equal(metadata.pages, 600, `${format.toUpperCase()} frame count mismatch: ${reference}`);
       assert.equal(metadata.loop, 0, `${format.toUpperCase()} must loop forever: ${reference}`);

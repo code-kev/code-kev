@@ -10,14 +10,14 @@ The underlying dot/block study uses a 240×135 sampling grid. The blimp crosses 
 
 ## Published asset contract
 
-- Canvas: 1672×941 for both GIFs and reduced-motion PNGs.
+- Published delivery canvas: 836×471 for GIFs, WebPs and reduced-motion PNGs. Keep the 1672×941 masters in the local artwork workspace.
 - GIFs and preferred lossless WebPs: 600 frames, identical 40/50 ms encoded delay arrays totaling 25,000 ms, infinite looping.
 - Profile: nine exported sections/crops, each in 800/350/288 source-size variants with inherited day/night palettes. Each contact crop is one third of its source canvas width and 56 pixels tall, with equal vertical padding around the lettering. Container-end padding stays outside the clickable images.
 - The README references five direct hero files (two WebPs, two GIF fallbacks and a theme-aware still SVG), the two PNGs embedded verbatim in that still, and 27 profile SVGs; body/hero display width is fluid and footer pieces each fill one third of the same column.
 - Name and section headings outrank the smaller muted subtitle and body items. Stack, Building, Environment and Connect have coherent insets and separators. Contact links stay within the same boundary.
 - Keep the approved profile wording, the public certkit destination and contact names/URLs together with their alternative text. Pentagent has no public repository link. The selectable-text disclosure was intentionally removed.
 
-The conservative optimization retained all frame geometry and delays and reduced each GIF from roughly 21.86 to 16.31 MiB. It was accepted after full-loop decoded comparison measured a maximum grayscale error of 2/255 per theme. This is bounded lossy tone rounding, not a lossless export or a universally acceptable error limit. Further edits need fresh evidence. The preferred WebPs preserve every decoded pixel of these GIFs and reduce each transfer to about 11.1 MB; the GIFs remain compatibility fallbacks.
+The full-resolution masters include an earlier bounded tone optimization with a measured maximum grayscale error of 2/255; that is not a universally acceptable error limit. Published delivery copies resample those approved GIFs to 836×471 with Lanczos3 and the source palette, retaining all 600 frames and the exact original delays. Resizing changes pixels and can soften large or high-density displays. Preferred WebPs preserve every decoded RGBA pixel of their delivery GIFs: 5,641,488 bytes (day) and 5,841,030 bytes (night), approximately half the previous transfer. GIF fallbacks are 7,318,375 and 7,510,745 bytes. Delivery PNG stills match the corresponding animation's first frame. Further edits need fresh preservation evidence and explicit tradeoffs.
 
 ## Maintenance boundary
 
