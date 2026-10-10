@@ -10,6 +10,15 @@ for (const [character, rows] of Object.entries(glyphs)) {
 
 const number = value => Number(value.toFixed(3));
 
+// The dotted ↗ link arrow recovered from the original artwork: a 7-column north-east mark
+// drawn at 0.766x its label cell, set 4.256 cells after the label and vertically centred on it.
+const linkArrow = ['0011111','0000011','0000101','0001001','0010000','0100000','1000000'];
+const arrowCell = cell => number(cell * 0.7656);
+const arrowGap = cell => number(cell * 4.256);
+const arrowSvg = cell => linkArrow.flatMap((row, y) => [...row].flatMap((bit, x) => bit === '1'
+  ? [`<circle cx="${number((x + .5) * cell)}" cy="${number((y + .5) * cell)}" r="${number(.36 * cell)}"/>`]
+  : [])).join('');
+
 export function glyphText(text, cell) {
   assert(Number.isFinite(cell) && cell > 0, 'Cell size must be positive');
   assert(typeof text === 'string' && text.length > 0, 'Text must not be empty');
@@ -67,6 +76,7 @@ export function buildProfile(content) {
         marks.push(`<g fill="currentColor" class="ink-${ink}" transform="translate(${number(x)} ${number(top)})">${glyph.svg}</g>`);
         return glyph.width;
       };
+      const arrow = (cell,x,top) => marks.push(`<g fill="currentColor" class="ink-0" transform="translate(${number(x)} ${number(top)})">${arrowSvg(cell)}</g>`);
       const lines = (value,size=cell,ink=2,x=gutter,maxWidth=column) => {
         for (const line of wrapWords(value,maxWidth,size)) {
           text(line,x,y,size,ink);
@@ -74,7 +84,7 @@ export function buildProfile(content) {
         }
       };
       const rule = () => marks.push(`<path class="ink-3" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1 3" d="M${gutter} 1H${width-gutter}"/>`);
-      draw({text,lines,rule,get y(){return y;},set y(value){y=value;}});
+      draw({text,lines,rule,arrow,get y(){return y;},set y(value){y=value;}});
       const height = Math.ceil(y+28);
       files.set(`assets/profile/${name}-${width}.svg`,`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><style>${palette}</style>${marks.join('')}</svg>\n`);
     }
@@ -91,7 +101,9 @@ export function buildProfile(content) {
     for (const [index,project] of content.projects.entries()) {
       section(index===0?'certkit':'pentagent',s => {
         s.rule();
-        s.lines(project.name,2.65,0);
+        const titleTop = s.y, titleCell = 2.65, cell = arrowCell(titleCell);
+        s.lines(project.name,titleCell,0);
+        if (project.url) s.arrow(cell,gutter+glyphText(project.name,titleCell).width+arrowGap(titleCell),titleTop+3.5*(titleCell-cell));
         s.y += 8;
         s.lines(project.label,1.6,1);
         s.y += 18;
@@ -123,10 +135,11 @@ export function buildProfile(content) {
     for (const contact of content.contacts) {
       const crop = Math.round(width/3), height=56;
       const size = width<=350 ? 1.5 : 1.85;
+      const cell = arrowCell(size), gap = arrowGap(size);
       const glyph = glyphText(contact.label,size);
-      assert(glyph.width<=crop,`Contact does not fit: ${contact.label}`);
-      const x=(crop-glyph.width)/2, y=(height-glyph.height)/2;
-      const marks=`<g fill="currentColor" class="ink-2" transform="translate(${number(x)} ${number(y)})">${glyph.svg}</g>`;
+      assert(glyph.width+gap+7*cell<=crop,`Contact does not fit: ${contact.label}`);
+      const x=(crop-glyph.width-gap-7*cell)/2, y=(height-glyph.height)/2;
+      const marks=`<g fill="currentColor" class="ink-2" transform="translate(${number(x)} ${number(y)})">${glyph.svg}</g><g fill="currentColor" class="ink-2" transform="translate(${number(x+glyph.width+gap)} ${number(y+3.5*(size-cell))})">${arrowSvg(cell)}</g>`;
       files.set(`assets/profile/contact-${contact.label.toLowerCase()}-${width}.svg`,`<svg xmlns="http://www.w3.org/2000/svg" width="${crop}" height="${height}" viewBox="0 0 ${crop} ${height}"><style>${palette}</style>${marks}</svg>\n`);
     }
   }
@@ -137,7 +150,7 @@ export function buildProfile(content) {
   });
   const contacts = content.contacts.map(contact=>`<a href="${escape(contact.url)}" aria-label="${escape(contact.label+' — '+contact.url.replace('mailto:',''))}">${picture('contact-'+contact.label.toLowerCase(),contact.label,'33.333333%')}</a>`).join('');
   const identity = picture('identity',`${content.name}. ${content.handle}. ${content.role}${content.focus?' '+content.focus:''}`);
-  files.set('README.md',`${hero}\n\n<div>\n${identity}\n${projects.join('\n')}\n${picture('stack','Stack. '+rowsAlt(content.stack))}\n${picture('environment','Environment. '+rowsAlt(content.environment))}\n${picture('connect','Connect')}\n<br>\n${contacts}\n</div>\n\n[Text / static profile](docs/profile.md) · [Artwork & skill](docs/README.md)\n`);
+  files.set('README.md',`${hero}\n\n<div>\n${identity}\n${projects.join('\n')}\n${picture('stack','Stack. '+rowsAlt(content.stack))}\n${picture('environment','Environment. '+rowsAlt(content.environment))}\n${picture('connect','Connect')}\n<br>\n${contacts}\n</div>\n`);
   const nativeProjects=content.projects.map(project=>`### ${project.name}\n\n${project.label}. ${project.description}\n\n${project.detail}.${project.url?`\n\n[Repository and usage examples](${project.url}#readme)`:''}`).join('\n\n');
   const nativeRows=rows=>rows.map(row=>`- **${row.label}:** ${row.value}`).join('\n');
   files.set('docs/profile.md',`# ${content.name}\n\n${content.focus}\n\n${content.role}\n\n<img src="../assets/still.svg" width="100%" alt="A developer and rounded bot overlooking a futuristic city; an AGI Soon blimp passes the window.">\n\nThis reading view uses a still image.\n\n## Selected projects\n\n${nativeProjects}\n\n## Stack\n\n${nativeRows(content.stack)}\n\n## Environment\n\n${nativeRows(content.environment)}\n\n## Connect\n\n${content.contacts.map(contact=>`- [${contact.label}](${contact.url})`).join('\n')}\n\n[Animated profile](../README.md) · [Artwork and reusable skill](README.md)\n`);

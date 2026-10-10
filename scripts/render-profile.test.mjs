@@ -115,5 +115,24 @@ test('graphical and native profiles share the same copy and destinations', async
   assert(native.includes('../assets/still.svg'));
   assert(!/\.gif|\.webp/.test(native),'The static reading route must not load animation');
   assert(readme.indexOf('assets/profile/certkit-')<readme.indexOf('assets/profile/stack-'));
-  assert.match(readme,/\[Text \/ static profile\]\(docs\/profile\.md\)/);
+  assert.doesNotMatch(readme,/static profile|Artwork & skill/,'The README must not link the retired docs footer');
+});
+
+test('marks the linked project and every contact with the shared dotted arrow', async () => {
+  const {buildProfile} = await renderer();
+  const content = JSON.parse(await readFile(new URL('../profile/content.json',import.meta.url),'utf8'));
+  const files = buildProfile(content);
+  const expected = ['0,6','1,5','2,0','2,4','3,0','3,3','4,0','4,2','5,0','5,1','6,0','6,1','6,2','6,3'];
+  const arrows = svg => [...svg.matchAll(/<g\b[^>]*>((?:<circle\b[^>]*\/>)+)<\/g>/g)]
+    .map(group => [...group[1].matchAll(/cx="([\d.]+)" cy="([\d.]+)"/g)].map(match => [+match[1],+match[2]]))
+    .filter(points => {
+      if (points.length !== 14) return false;
+      const xs = points.map(point => point[0]), ys = points.map(point => point[1]);
+      const minX = Math.min(...xs), minY = Math.min(...ys), cell = (Math.max(...xs)-minX)/6;
+      const pattern = new Set(points.map(([x,y]) => `${Math.round((x-minX)/cell)},${Math.round((y-minY)/cell)}`));
+      return pattern.size === 14 && expected.every(point => pattern.has(point));
+    });
+  const linked = ['assets/profile/certkit-800.svg',...content.contacts.map(contact => `assets/profile/contact-${contact.label.toLowerCase()}-800.svg`)];
+  for (const name of linked) assert.equal(arrows(files.get(name)).length,1,`Missing ↗ in ${name}`);
+  for (const [name,svg] of files) if (name.endsWith('-800.svg') && !linked.includes(name)) assert.equal(arrows(svg).length,0,`Unexpected ↗ in ${name}`);
 });
