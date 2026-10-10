@@ -47,4 +47,4 @@ Keep source-generation work, scratch proofs and checkpoint history distinct from
 
 ## License
 
-MIT (see the repository `LICENSE`). Adapt this skill and its example freely. The host profile's personal artwork is a separate scope and is not covered by that license; see `NOTICE.md`.
+MIT. You may copy, adapt and redistribute this skill and its example, provided the bundled `LICENSE` notice is retained. The skill carries its own license copy so a standalone install keeps its terms. The host profile's personal artwork is a separate scope and is not covered; see the repository `NOTICE.md`.

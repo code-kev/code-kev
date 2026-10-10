@@ -28,7 +28,7 @@ See [artwork, sources and reuse](artwork.md) for the reproducible source-to-deli
 
 [Glyph Artwork Constitution](../skills/glyph-artwork/SKILL.md) captures the reusable techniques behind this artwork: aspect-correct character grids, deterministic glyph geometry, registered motion layers, preservation checks, honest encoding tradeoffs and GitHub delivery. Its general instructions are separate from this profile's specific asset contract. Earlier checkpoint history is not bundled with the skill.
 
-To use it, copy the complete `skills/glyph-artwork` folder into your agent runtime's skill directory and invoke `$glyph-artwork`, or ask an agent to read its `SKILL.md` directly. Keep its references, script and alphabet asset with the entrypoint. The GitHub guide applies only to that surface, and the profile contract applies only to explicitly identified code-kev maintenance work.
+To use it, copy the complete `skills/glyph-artwork` folder into your agent runtime's skill directory and invoke `$glyph-artwork`, or ask an agent to read its `SKILL.md` directly. Keep its references, script, alphabet asset and bundled `LICENSE` with the entrypoint. The skill is MIT-licensed and safe to reuse and adapt. The GitHub guide applies only to that surface, and the profile contract applies only to explicitly identified code-kev maintenance work.
 
 The [worked example](../skills/glyph-artwork/references/worked-example.md) runs with Node.js and no installed dependencies. It produces a transparent 16:9 dot city/window scene, verifies its physical dimensions and rejects unsupported caption glyphs before writing. It is a static example, independent of Kevin's profile animation.
 

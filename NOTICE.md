@@ -7,8 +7,8 @@ cover the personal artwork below.
 
 Everything not listed under "Personal profile artwork" is licensed under the
 MIT License: the verification and rendering scripts (`scripts/`), the reusable
-skill (`skills/glyph-artwork/`, including its bundled alphabet), the
-operational documentation (`docs/`) and the package files.
+skill (`skills/glyph-artwork/`, including its bundled alphabet and its own
+`LICENSE` copy), the operational documentation (`docs/`) and the package files.
 
 ## Personal profile artwork — all rights reserved
 
