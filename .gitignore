@@ -29,6 +29,7 @@
 /profile/*
 !/profile/content.json
 !/profile/glyphs.json
+!/profile/developer-head.svg
 !/docs/
 /docs/*
 !/docs/README.md

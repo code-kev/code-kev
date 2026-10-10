@@ -9,17 +9,7 @@ import sharp from 'sharp';
 const width = 836, height = 471, frameSize = width * height;
 const sourceSha = '134762e8f5a07e56d4bfb57d2f99eb60c003d0b5cbf4749741ecfdc8f410742b';
 const clamp = value => Math.max(0, Math.min(1, value));
-// These cells and the nod clock match the original registered developer layer.
-const headOutline = [[40,35],[44,36],[47,38],[50,39],[51,40],[57,40],[59,44],[62,48],[64,53],[64,57],[61,62],[57,66],[54,68],[51,69],[46,68],[44,67],[38,69],[31,69],[27,68],[27,65],[22,62],[21,57],[21,52],[23,49],[25,46],[28,43],[31,40],[33,39],[37,39],[39,38]];
-const headCells = new Uint8Array(240 * 135);
-for (let y = 35; y < 69; y++) for (let x = 21; x < 65; x++) {
-  let inside = false;
-  for (let i = 0, j = headOutline.length - 1; i < headOutline.length; j = i++) {
-    const [a, b] = headOutline[i], [c, d] = headOutline[j];
-    if ((b > y + .5) !== (d > y + .5) && x + .5 < (c - a) * (y + .5 - b) / (d - b) + a) inside = !inside;
-  }
-  headCells[y * 240 + x] = Number(inside);
-}
+const headSvg = await readFile(new URL('../profile/developer-head.svg', import.meta.url), 'utf8');
 const headPixels = [];
 const gain = new Float32Array(frameSize);
 for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
@@ -49,7 +39,7 @@ for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
 
 const tone = (value, light) => Math.max(1, Math.min(value, Math.round(value * light / 8) * 8));
 
-export function applyNightLighting(pixels, frame = 0) {
+export async function applyNightLighting(pixels, frame = 0) {
   assert(pixels instanceof Uint8Array && pixels.length === frameSize, 'Expected an 836 × 471 grayscale frame');
   assert(Number.isInteger(frame) && frame >= 0 && frame < 600, 'Invalid head-motion frame: expected 0 to 599');
   const result = Buffer.from(pixels);
@@ -59,19 +49,13 @@ export function applyNightLighting(pixels, frame = 0) {
       result[i] = tone(pixels[i], gain[i]);
     }
   }
-  const angle = (frame === 0 || frame === 599 ? 0 : .65 * Math.sin(2 * Math.PI * 10 * frame / 599)) * Math.PI / 180;
-  const cos = Math.cos(angle), sin = Math.sin(angle);
-  // Include the two-pixel delivery filter fringe so edge glyphs receive the same tone as the head.
-  const fringeX = 2 * 240 / width, fringeY = 2 * 135 / height;
+  const angle = frame === 0 || frame === 599 ? 0 : .65 * Math.sin(2 * Math.PI * 10 * frame / 599);
+  const nativeHead = await sharp(Buffer.from(headSvg.replace('rotate(0 46 70)', `rotate(${angle} 46 70)`))).png().toBuffer();
+  // Positive linear weights avoid ringing falsely classifying neighboring background dots as head marks.
+  const coverage = await sharp(nativeHead).flatten({ background: '#000' })
+    .resize(width, height, { fit: 'fill', kernel: 'linear' }).toColourspace('b-w').raw().toBuffer();
   for (const pixel of headPixels) {
-    if (!pixels[pixel.index]) continue;
-    const hx = (pixel.x - 46) * cos + (pixel.y - 70) * sin + 46;
-    const hy = -(pixel.x - 46) * sin + (pixel.y - 70) * cos + 70;
-    let occupied = false;
-    for (const dy of [-fringeY, 0, fringeY]) for (const dx of [-fringeX, 0, fringeX]) {
-      if (headCells[Math.floor(hy + dy) * 240 + Math.floor(hx + dx)]) occupied = true;
-    }
-    if (occupied) result[pixel.index] = tone(pixels[pixel.index], pixel.light);
+    if (pixels[pixel.index] && coverage[pixel.index]) result[pixel.index] = tone(pixels[pixel.index], pixel.light);
   }
   return result;
 }
@@ -133,7 +117,7 @@ async function render(input, output) {
   await mkdir(pngDir);
   let count = 0;
   for await (const frame of frames(input)) {
-    await sharp(applyNightLighting(frame, count), { raw: { width, height, channels: 1 } })
+    await sharp(await applyNightLighting(frame, count), { raw: { width, height, channels: 1 } })
       .png().toFile(path.join(pngDir, `${String(count++).padStart(4, '0')}.png`));
   }
   assert.equal(count, 600);
@@ -162,7 +146,7 @@ async function render(input, output) {
   try {
     for await (const frame of frames(gif)) {
       const original = await reference.next();
-      assert(!original.done && frame.equals(applyNightLighting(original.value, count)), `Lighting differs at frame ${count}`);
+      assert(!original.done && frame.equals(await applyNightLighting(original.value, count)), `Lighting differs at frame ${count}`);
       count++;
     }
     assert((await reference.next()).done);

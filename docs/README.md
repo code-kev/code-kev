@@ -14,6 +14,7 @@ Read the [text / static profile](profile.md) for selectable copy, semantic headi
 - `profile/content.json`, `profile/glyphs.json` and `scripts/render-profile.mjs`: reviewed copy, the original glyph atlas and reproducible profile exports.
 - `scripts/check-profile.mjs` and the test suite: verification of the published files and source/export consistency.
 - `scripts/render-night.mjs`: the registered night lighting pass, encoders and full-loop preservation checks; see [maintenance](maintenance.md) for its pinned source and tools.
+- `profile/developer-head.svg`: the original head glyph layer used to keep night shading off neighboring background marks.
 - `package.json` and `package-lock.json`: verification commands and the locked Sharp dependency.
 - `.github/workflows/artwork.yml`: the required `artwork-check` job.
 

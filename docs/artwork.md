@@ -9,11 +9,13 @@ The hero and profile lettering share a monochrome dot treatment, but use separat
 | `profile/content.json` | Root README, native profile and matching alternative text | `npm run render:profile`; source/export drift tests |
 | `profile/glyphs.json` | Nine SVG groups, each at 288/350/550/800px | Same renderer; explicit circles, word wrapping, bounds and contact-padding tests |
 | Local approved 1672×941 GIF masters | 836×471 GIF fallbacks and lossless WebP copies | Encoders and decoded comparisons described in [maintenance](maintenance.md) |
-| Approved compact night GIF from commit `0aba8b4` | Directed night GIF, lossless WebP and matching poster | `scripts/render-night.mjs`; fixed grid-coordinate lighting and full-loop decoded comparisons |
+| Approved compact night GIF from commit `0aba8b4` and `profile/developer-head.svg` | Directed night GIF, lossless WebP and matching poster | `scripts/render-night.mjs`; glyph-owned head lighting and full-loop decoded comparisons |
 | Selected common frame of the delivery GIFs | Day/night PNGs and theme-aware `still.svg` | Poster pixel comparison and exact wrapper validation |
 | Self-contained skill folder | A generic 960×540 city/window example | `node scripts/dot-city.mjs city.svg "AI CITY"` from that folder |
 
 The profile atlas was recovered from the existing approved dotted SVG word exports used by the earlier profile. It retains their 5×7 bitmaps and 0.36-cell dot radius. Its limited character set is explicit; new glyphs need deliberate authoring. The skill bundles a copy so installation does not depend on this repository's profile sources.
+
+The developer head SVG contains the original hero's explicit head marks and clipping paths at the native canvas size. It supplies coverage for the lighting pass, not replacement animation geometry. It belongs to the personal artwork scope described below.
 
 The hero's earlier raster/source attribution is not recorded in this release. The available evidence establishes which delivery files were approved and how they were resized/encoded; it does not establish upstream rights. Local masters, checkpoint history, planning documents and lighting studies are excluded from publication.
 
