@@ -50,6 +50,7 @@
 !/skills/glyph-artwork/
 /skills/glyph-artwork/*
 !/skills/glyph-artwork/SKILL.md
+!/skills/glyph-artwork/LICENSE
 !/skills/glyph-artwork/scripts/
 /skills/glyph-artwork/scripts/*
 !/skills/glyph-artwork/scripts/dot-city.mjs
