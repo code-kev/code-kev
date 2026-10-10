@@ -44,3 +44,7 @@ If lossless or bounded-tone optimization misses the size budget, report the meas
 For GitHub, read [the README delivery guide](references/github-readme.md). Only when the user's request explicitly identifies the existing code-kev profile, also read [its current profile contract](references/code-kev-profile.md). A generic profile hero or a different client's scene uses that user's own contract, not this example's asset counts, dimensions or choreography.
 
 Keep source-generation work, scratch proofs and checkpoint history distinct from the reviewed delivery set. Include the operational files needed to maintain and verify that set, including an existing required workflow and its dependencies. Derive files from actual references and callers, not a blanket “development” filter. Ignoring tip files does not remove tracked files or commit ancestry. Publish only when the user has authorized it, and preserve that authorization's branch/PR/merge scope.
+
+## License
+
+MIT (see the repository `LICENSE`). Adapt this skill and its example freely. The host profile's personal artwork is a separate scope and is not covered by that license; see `NOTICE.md`.
