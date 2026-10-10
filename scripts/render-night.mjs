@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const width = 836, height = 471, frameSize = width * height;
-const sourceSha = '134762e8f5a07e56d4bfb57d2f99eb60c003d0b5cbf4749741ecfdc8f410742b';
+const sourceSha = 'abb101070d10a7d9e83de40f22ba58d3a4756a720e6d156f8bc815c2119ea06f';
 const clamp = value => Math.max(0, Math.min(1, value));
 const headSvg = await readFile(new URL('../profile/developer-head.svg', import.meta.url), 'utf8');
 const headPixels = [];
@@ -104,7 +104,7 @@ async function* frames(input, channels = 1) {
 
 async function render(input, output) {
   assert.equal(createHash('sha256').update(await readFile(input)).digest('hex'), sourceSha,
-    'Expected the approved compact night GIF from commit 0aba8b4');
+    'Expected the approved compact night GIF built from the polished masters');
   const source = await sharp(input, { animated: true }).metadata();
   assert.equal(source.width, width);
   assert.equal(source.pageHeight, height);
