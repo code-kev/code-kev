@@ -6,6 +6,10 @@ import sharp from 'sharp';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const readme = await readFile(resolve(root, 'README.md'), 'utf8');
+const stillSource = readme.split('</picture>')[0].match(/<source\b[^>]*>/)?.[0] ?? '';
+assert(/\bsrcset="assets\/still\.svg"/.test(stillSource), 'Still source must be first');
+assert(/\bmedia="\(prefers-reduced-motion: reduce\)"/.test(stillSource), 'Still source must select reduced motion');
+assert(/\btype="image\/svg\+xml"/.test(stillSource), 'Still source must declare SVG');
 const references = [...new Set([...readme.matchAll(/\b(?:src|srcset)="([^"]+)"/g)].map(match => match[1]))];
 const heroes = ['assets/day.gif', 'assets/night.gif', 'assets/day.png', 'assets/night.png', 'assets/day.webp', 'assets/night.webp', 'assets/still.svg'];
 const variants = new Map();
@@ -19,7 +23,7 @@ references.push('assets/day.png', 'assets/night.png');
 assert(references.length > 0, 'README must reference the profile artwork');
 
 for (const reference of references) {
-  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|800)\.svg$/);
+  const profile = reference.match(/^assets\/profile\/([a-z-]+)-(288|350|550|800)\.svg$/);
   assert(heroes.includes(reference) || profile, `Unsupported asset path: ${reference}`);
   const bytes = await readFile(resolve(root, reference));
   if (profile) {
@@ -46,6 +50,7 @@ for (const reference of references) {
     assert.equal(metadata.width, 836, `Artwork width mismatch: ${reference}`);
     assert.equal(metadata.pageHeight ?? metadata.height, 471, `Artwork height mismatch: ${reference}`);
     if (format === 'gif' || format === 'webp') {
+      assert(bytes.length <= (format === 'webp' ? 6000000 : 8000000), `Hero byte budget exceeded: ${reference}`);
       assert.equal(metadata.pages, 600, `${format.toUpperCase()} frame count mismatch: ${reference}`);
       assert.equal(metadata.loop, 0, `${format.toUpperCase()} must loop forever: ${reference}`);
       assert.equal(metadata.delay.length, 600, `${format.toUpperCase()} delays missing: ${reference}`);
@@ -64,7 +69,7 @@ for (const theme of ['day', 'night']) {
   assert(webp.bytes < gif.bytes, `WEBP must be smaller than GIF fallback: ${theme}`);
   assert.deepEqual(webp.metadata.delay, gif.metadata.delay, `WEBP delays must match GIF fallback: ${theme}`);
 }
-for (const [name, group] of variants) assert.equal(group.size, 3, `Profile size variants missing: ${name}`);
+for (const [name, group] of variants) assert.equal(group.size, 4, `Profile size variants missing: ${name}`);
 assert(variants.size > 0, 'README must reference profile sections');
 const files = (await readdir(resolve(root, 'assets'))).filter(name => name !== 'profile').map(name => 'assets/' + name);
 files.push(...(await readdir(resolve(root, 'assets/profile'))).map(name => 'assets/profile/' + name));

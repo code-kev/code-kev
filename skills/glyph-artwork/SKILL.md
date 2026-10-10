@@ -21,18 +21,7 @@ Character cells are often rectangular. For a source aspect ratio `A`, `C` column
 
 Sample luminance into a restrained, deterministic palette or calibrated glyph-density ramp. Preserve negative space, silhouettes and foreground/background separation. Inspect actual delivery widths: recognizable shape is not proof that an eye, mouth or letter reads. Confine contrast corrections to their intended objects; density and dot occupancy affect perceived brightness as well as RGB values.
 
-A minimal deterministic dot primitive:
-
-```js
-const glyph = ['01110', '10001', '10001', '11111', '10001', '10001', '10001'];
-const cell = 8, radius = cell * 0.36;
-const circles = glyph.flatMap((row, y) => [...row].flatMap((bit, x) =>
-  bit === '1' ? [`<circle cx="${(x + .5) * cell}" cy="${(y + .5) * cell}" r="${radius}"/>`] : []
-)).join('');
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 56"><g fill="#fff">${circles}</g></svg>`;
-```
-
-This preserves a visible gap between dots and a transparent background. Cell size, palette and glyph choice belong to the design, not this example.
+For a complete dependency-free scene and caption, run `node scripts/dot-city.mjs city.svg "AI CITY"` from this skill's folder. Read [the worked example](references/worked-example.md) when adapting it. Its 160×54 rectangular-cell grid produces a 960×540 transparent SVG; the bundled bitmap alphabet rejects unsupported captions before writing. The example's dimensions and geometry are optional starting points, not a contract for another scene.
 
 ## Compose motion as registered layers
 

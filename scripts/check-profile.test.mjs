@@ -7,7 +7,7 @@ import test from 'node:test';
 import sharp from 'sharp';
 const root=fileURLToPath(new URL('..',import.meta.url));
 test('accepts the published SVGs and 600-frame animations',()=>{
-  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 34/);
+  assert.match(execFileSync(process.execPath,['scripts/check-profile.mjs'],{cwd:root,encoding:'utf8'}),/Verified 43/);
 });
 async function fixture(context){
   await mkdir(join(root,'tmp'),{recursive:true});
@@ -73,7 +73,7 @@ test('rejects a hero animation using the retired full-size canvas',async context
 });
 
 test('contact images have balanced vertical touch padding',async()=>{
-  for(const size of [288,350,800])for(const name of ['email','linkedin','github']){
+  for(const size of [288,350,550,800])for(const name of ['email','linkedin','github']){
     const image=sharp(join(root,`assets/profile/contact-${name}-${size}.svg`));
     const {data,info}=await image.ensureAlpha().raw().toBuffer({resolveWithObject:true});
     let top=info.height,bottom=-1;
@@ -91,6 +91,37 @@ test('hero prefers WebP for both themes after the reduced-motion still',async()=
   assert.match(sources[1][0],/prefers-color-scheme: dark/);
   assert.match(sources[2][0],/prefers-color-scheme: light/);
   assert.match(hero,/<img src="assets\/day.gif"/);
+});
+
+test('rejects a still source without the reduced-motion condition',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  const original=await readFile(file,'utf8');
+  for(const media of ['', 'media="(prefers-reduced-motion: no-preference)" ']){
+    await writeFile(file,original.replace('media="(prefers-reduced-motion: reduce)" ',media));
+    reject(dir,/Still source must select reduced motion/);
+  }
+});
+
+test('rejects a reduced-motion still after an animation source',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  const original=await readFile(file,'utf8');
+  const still=original.match(/<source\b[^>]*srcset="assets\/still\.svg"[^>]*>\n/)[0];
+  await writeFile(file,original.replace(still,'').replace(/(<source\b[^>]*srcset="assets\/night\.webp"[^>]*>\n)/,'$1'+still));
+  reject(dir,/Still source must be first/);
+});
+
+test('rejects a still source with the wrong declared format',async context=>{
+  const dir=await fixture(context),file=join(dir,'README.md');
+  await writeFile(file,(await readFile(file,'utf8')).replace('type="image/svg+xml"','type="image/webp"'));
+  reject(dir,/Still source must declare SVG/);
+});
+
+test('rejects hero files exceeding the delivery byte budget',async context=>{
+  for(const [format,padding] of [['webp',400000],['gif',1000000]]){
+    const dir=await fixture(context),file=join(dir,`assets/day.${format}`);
+    await writeFile(file,Buffer.concat([await readFile(file),Buffer.alloc(padding)]));
+    reject(dir,/Hero byte budget exceeded/);
+  }
 });
 
 test('rejects WebP timing changes even when frame count and duration match',async context=>{
@@ -125,4 +156,13 @@ test('rejects external content in the reduced-motion SVG',async context=>{
   const dir=await fixture(context),file=join(dir,'assets/still.svg');
   await writeFile(file,(await readFile(file,'utf8')).replace('data:image/png;base64,','https://example.com/'));
   reject(dir,/Still SVG must embed only the exact approved PNGs/);
+});
+
+test('reduced-motion PNGs exactly match the approved poster frame 204',async()=>{
+  for (const theme of ['day','night']) {
+    const poster=await sharp(join(root,`assets/${theme}.png`)).toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    const frame=await sharp(join(root,`assets/${theme}.gif`),{page:204,pages:1}).toColourspace('srgb').ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    assert.equal(poster.info.width,frame.info.width);assert.equal(poster.info.height,frame.info.height);
+    assert(poster.data.equals(frame.data),`${theme} poster pixels differ from frame 204`);
+  }
 });
