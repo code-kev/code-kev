@@ -28,8 +28,10 @@ for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
   if (gx >= 148 && gx <= 184 && gy >= 79 && gy <= 104) {
     light = clamp(.45 + .5 * Math.exp(-(((gx - 150) / 22) ** 2)) + .3 * Math.exp(-(((gx - 183) / 3) ** 2)));
   }
-  // Keep the banner, monitor and fixed window rails at their approved tones.
-  if (gy < 18 || (gx >= 17 && gx <= 27) || (gx >= 227 && gx <= 234) ||
+  // The left rail ends behind the developer; a full-height strip would also exempt the head and chair.
+  const leftRail = gx >= 17 && gx <= 27 && gy < 72 &&
+    (gx < 20 || gy < 34 || (gx >= 25 && gy >= 65 && gy <= 68));
+  if (gy < 18 || leftRail || (gx >= 227 && gx <= 234) ||
       (gx >= 75 && gx <= 137 && gy >= 49 && gy <= 96)) light = 1;
   gain[y * width + x] = light;
 }

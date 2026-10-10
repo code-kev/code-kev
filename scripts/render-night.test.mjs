@@ -18,8 +18,15 @@ const at=(x,y)=>Math.floor(y*height/135)*width+Math.floor(x*width/240);
 test('keeps the monitor, banner and window rails at their original tones',async()=>{
   const {applyNightLighting}=await lighting();
   const source=Buffer.alloc(width*height,200),result=applyNightLighting(source);
-  for(const [x,y] of [[100,70],[140,10],[22,52],[26,66],[230,65],[5,30]]) assert.equal(result[at(x,y)],200);
+  for(const [x,y] of [[100,70],[140,10],[18,52],[22,30],[26,66],[230,65],[5,30]]) assert.equal(result[at(x,y)],200);
   assert(source.every(value=>value===200),'The approved source must not be mutated');
+});
+
+test('does not extend the window-rail highlight across the head or chair',async()=>{
+  const {applyNightLighting}=await lighting();
+  const result=applyNightLighting(Buffer.alloc(width*height,200));
+  assert(result[at(26,54)]<100,'The rear of the head must receive its shadow tone');
+  assert(result[at(22,92)]<=result[at(29,92)],'The chair must not carry a brighter vertical rail stripe');
 });
 
 test('directs the developer highlight toward the monitor and quiets distant surfaces',async()=>{
