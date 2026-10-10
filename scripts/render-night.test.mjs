@@ -29,6 +29,29 @@ test('does not extend the window-rail highlight across the head or chair',async(
   assert(result[at(22,92)]<=result[at(29,92)],'The chair must not carry a brighter vertical rail stripe');
 });
 
+test('shades the entire rear hair silhouette through the nod without dimming the exposed rail',async()=>{
+  const {applyNightLighting}=await lighting();
+  const source=Buffer.alloc(width*height,200);
+  for(const frame of [0,15,45,204,599]) {
+    const result=applyNightLighting(source,frame);
+    for(const [x,y] of [[23.5,61.5],[25.5,63.5],[31.5,68.5]]) {
+      assert(result[at(x,y)]<=48,`Rear hair retains a halo at ${x},${y}, frame ${frame}`);
+    }
+    for(const [x,y] of [[18,52],[24,42],[26,66]]) {
+      assert.equal(result[at(x,y)],200,`Exposed rail changed at frame ${frame}`);
+    }
+  }
+  assert(!applyNightLighting(source,15).equals(applyNightLighting(source,45)),'The head footprint must follow the nod');
+  assert(applyNightLighting(source,0).equals(applyNightLighting(source,599)),'The lighting footprint must reset with the loop');
+});
+
+test('rejects an invalid registered head-motion frame',async()=>{
+  const {applyNightLighting}=await lighting();
+  for(const frame of [-1,600,.5]) {
+    assert.throws(()=>applyNightLighting(Buffer.alloc(width*height),frame),/frame.*0.*599/i);
+  }
+});
+
 test('directs the developer highlight toward the monitor and quiets distant surfaces',async()=>{
   const {applyNightLighting}=await lighting();
   const result=applyNightLighting(Buffer.alloc(width*height,255));
