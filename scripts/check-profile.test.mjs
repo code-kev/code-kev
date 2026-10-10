@@ -117,9 +117,10 @@ test('rejects a still source with the wrong declared format',async context=>{
 });
 
 test('rejects hero files exceeding the delivery byte budget',async context=>{
-  for(const [format,padding] of [['webp',400000],['gif',1000000]]){
+  for(const [format,budget] of [['webp',6000000],['gif',8000000]]){
     const dir=await fixture(context),file=join(dir,`assets/day.${format}`);
-    await writeFile(file,Buffer.concat([await readFile(file),Buffer.alloc(padding)]));
+    const bytes=await readFile(file);
+    await writeFile(file,Buffer.concat([bytes,Buffer.alloc(budget-bytes.length+1)]));
     reject(dir,/Hero byte budget exceeded/);
   }
 });

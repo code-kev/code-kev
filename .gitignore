@@ -25,13 +25,10 @@
 !/scripts/render-profile.mjs
 !/scripts/render-profile.test.mjs
 !/scripts/glyph-example.test.mjs
-!/scripts/render-night.mjs
-!/scripts/render-night.test.mjs
 !/profile/
 /profile/*
 !/profile/content.json
 !/profile/glyphs.json
-!/profile/developer-head.svg
 !/docs/
 /docs/*
 !/docs/README.md
