@@ -9,6 +9,7 @@ The hero and profile lettering share a monochrome dot treatment, but use separat
 | `profile/content.json` | Root README, native profile and matching alternative text | `npm run render:profile`; source/export drift tests |
 | `profile/glyphs.json` | Nine SVG groups, each at 288/350/550/800px | Same renderer; explicit circles, word wrapping, bounds and contact-padding tests |
 | Local approved 1672×941 GIF masters | 836×471 GIF fallbacks and lossless WebP copies | Encoders and decoded comparisons described in [maintenance](maintenance.md) |
+| Approved compact night GIF from commit `0aba8b4` and `profile/developer-head.svg` | Directed night GIF, lossless WebP and matching poster | `scripts/render-night.mjs`; glyph-owned head lighting and full-loop decoded comparisons |
 | Selected common frame of the delivery GIFs | Day/night PNGs and theme-aware `still.svg` | Poster pixel comparison and exact wrapper validation |
 | Self-contained skill folder | A generic 960×540 city/window example | `node scripts/dot-city.mjs city.svg "AI CITY"` from that folder |
 
@@ -22,7 +23,7 @@ The hero's earlier raster/source attribution is not recorded in this release. Th
 
 Start with [Glyph Artwork Constitution](../skills/glyph-artwork/SKILL.md) and its [complete worked example](../skills/glyph-artwork/references/worked-example.md). The generic example uses authored physical coordinates, a calibrated rectangular-cell grid, explicit dot geometry and a bundled caption alphabet. It contains no developer, bot, personal contact data or animation choreography from Kevin's hero.
 
-For this profile, the [maintenance guide](maintenance.md) defines the operational contracts. Metadata checks protect formats, timing and byte ceilings; relevant decoded/rendered comparisons provide preservation evidence. The night theme keeps the day cells and puts ink on a 1.5 power curve of the day coverage, so the faintest wash falls away while contours, the window frame, the monitor and the skyline still read. Neither theme generates new geometry or uses an AI-produced raster as an animation frame. All 600 WebP frames were compared to their delivery GIF, with exact decoded matches.
+For this profile, the [maintenance guide](maintenance.md) defines the operational contracts. Metadata checks protect formats, timing and byte ceilings; relevant decoded/rendered comparisons provide preservation evidence. The directed night animation uses a deterministic tone pass over the approved motion frames. It darkens existing marks around the monitor while preserving their occupied pixels; it does not generate new geometry or use an AI-produced raster as an animation frame. All 600 GIF frames were compared to that intended tone pass, and all 600 WebP frames to the GIF, with exact decoded matches.
 
 ## Reuse terms
 
